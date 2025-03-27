@@ -1,6 +1,8 @@
 using CmsTHTN.Api;
 using CmsTHTN.Core.Domain.Identity;
+using CmsTHTN.Core.SeedWorks;
 using CmsTHTN.Data;
+using CmsTHTN.Data.SeedWorks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -9,8 +11,6 @@ var culture = CultureInfo.InvariantCulture;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
-// Add services to the container.
-Environment.SetEnvironmentVariable("DOTNET_SYSTEM_GLOBALIZATION_INVARIANT", "false");
 
 //Config DB Context and ASP.NET Core Identity
 builder.Services.AddDbContext<CmsTHTNContext>(options => options.UseSqlServer(connectionString));
@@ -36,6 +36,10 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = false;
 }
 );
+
+// Add services to the container.
+builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
