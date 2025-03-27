@@ -1,12 +1,16 @@
+using CmsTHTN.Api;
 using CmsTHTN.Core.Domain.Identity;
 using CmsTHTN.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
+var culture = CultureInfo.InvariantCulture;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 // Add services to the container.
+Environment.SetEnvironmentVariable("DOTNET_SYSTEM_GLOBALIZATION_INVARIANT", "false");
 
 //Config DB Context and ASP.NET Core Identity
 builder.Services.AddDbContext<CmsTHTNContext>(options => options.UseSqlServer(connectionString));
@@ -52,5 +56,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//seeding data
+app.MigrateDatabase();
 
 app.Run();
