@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CmsTHTN.Data.Migrations
 {
     [DbContext(typeof(CmsTHTNContext))]
-    [Migration("20250326092110_Initial")]
-    partial class Initial
+    [Migration("20250329093445_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,10 @@ namespace CmsTHTN.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorUserId")
+                        .HasMaxLength(500)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryId")

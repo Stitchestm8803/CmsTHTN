@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CmsTHTN.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -193,6 +193,7 @@ namespace CmsTHTN.Data.Migrations
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Thumbnail = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AuthorUserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 500, nullable: false),
                     Source = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
                     Tags = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     SeoDescription = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: true),

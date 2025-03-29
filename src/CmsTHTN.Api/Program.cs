@@ -1,13 +1,15 @@
 using CmsTHTN.Api;
 using CmsTHTN.Core.Domain.Identity;
-using CmsTHTN.Core.Repository;
+using CmsTHTN.Core.Modals.Content;
 using CmsTHTN.Core.SeedWorks;
 using CmsTHTN.Data;
 using CmsTHTN.Data.Repositories;
 using CmsTHTN.Data.SeedWorks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Globalization;
+using System.Reflection;
 
 var culture = CultureInfo.InvariantCulture;
 var builder = WebApplication.CreateBuilder(args);
@@ -55,12 +57,26 @@ foreach (var service in  services)
     {
         builder.Services.Add(new ServiceDescriptor(directInterface, service, ServiceLifetime.Scoped));
     }    
-}    
+}
+
+builder.Services.AddAutoMapper(typeof(PostInListDto));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.CustomOperationIds(apiDesc =>
+    {
+        return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
+    });
+    c.SwaggerDoc("AdminAPI", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Version = "v1",
+        Title = "API for Administrator",
+        Description = "Api for CMS core domain. This domain keeps track of campaigns, campaign rules"
+    });
+});
 
 var app = builder.Build();
 
@@ -68,7 +84,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c=>
+    {
+        c.SwaggerEndpoint("AdminAPI/swagger.json", "Admin API");
+        c.DisplayOperationId();
+        c.DisplayRequestDuration();
+    });
 }
 
 app.UseHttpsRedirection();
