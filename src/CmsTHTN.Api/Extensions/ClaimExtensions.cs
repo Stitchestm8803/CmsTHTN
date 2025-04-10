@@ -9,7 +9,7 @@ namespace CmsTHTN.Api.Extensions
 {
     public static class ClaimExtensions
     {
-        public static void GetPermissions(this List<RolesClaimsDto> allPermissions, Type policy)
+        public static void GetPermissions(this List<RoleClaimsDto> allPermissions, Type policy)
         {
             FieldInfo[] fields = policy.GetFields(BindingFlags.Static | BindingFlags.Public);
             foreach (FieldInfo fi in fields) 
@@ -22,7 +22,7 @@ namespace CmsTHTN.Api.Extensions
                     var description = (DescriptionAttribute)attribute[0];
                     displayName = description.Description;
                 }
-                allPermissions.Add(new RolesClaimsDto
+                allPermissions.Add(new RoleClaimsDto
                 {
                     Value = fi.GetValue(null).ToString(),
                     Type = "Permissions",

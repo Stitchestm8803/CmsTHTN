@@ -1,4 +1,5 @@
 using CmsTHTN.Api;
+using CmsTHTN.Api.Authorization;
 using CmsTHTN.Api.Filters;
 using CmsTHTN.Api.Services;
 using CmsTHTN.Core.ConfigOptions;
@@ -8,17 +9,23 @@ using CmsTHTN.Core.SeedWorks;
 using CmsTHTN.Data;
 using CmsTHTN.Data.Repositories;
 using CmsTHTN.Data.SeedWorks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Globalization;
 using System.Reflection;
+using System.Text;
 
 var culture = CultureInfo.InvariantCulture;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 var CmsTHTNCorsPolicy = "CmsTHTNCorsPolicy";
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 builder.Services.AddCors(o => o.AddPolicy(CmsTHTNCorsPolicy, builder =>
 {
@@ -99,6 +106,23 @@ builder.Services.AddSwaggerGen(c =>
     c.ParameterFilter<SwaggerNullableParameterFilter>();
 });
 
+builder.Services.AddAuthentication(o =>
+{
+    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(cfg =>
+{
+    cfg.RequireHttpsMetadata = false;
+    cfg.SaveToken = true;
+
+    cfg.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = configuration["JwtTokenSettings:Issuer"],
+        ValidAudience = configuration["JwtTokenSettings:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtTokenSettings:Key"]))
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -116,6 +140,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors(CmsTHTNCorsPolicy);
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

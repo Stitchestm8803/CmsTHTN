@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CmsTHTN.Core.Modals.System
 {
-    public class RolesClaimsDto
+    public class RoleClaimsDto
     {
         public required string Type { get; set; }
         public required string  Value { get; set; }

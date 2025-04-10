@@ -9,6 +9,7 @@ namespace CmsTHTN.Api.Controllers.AdminApi
 {
     [Route("api/ADMIN/post")]
     [ApiController]
+
     public class PostController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -19,6 +20,7 @@ namespace CmsTHTN.Api.Controllers.AdminApi
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
 
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromBody] CreateUpdatePostRequest request)

@@ -81,7 +81,7 @@ namespace CmsTHTN.Api.Controllers.AdminApi
             var roles = await _userManager.GetRolesAsync(user);
             var permissions = new List<string>();
 
-            var allPermissions = new List<RolesClaimsDto>();
+            var allPermissions = new List<RoleClaimsDto>();
             if (roles.Contains(Roles.Admin))
             {
                 var types = typeof(Permissions).GetTypeInfo().DeclaredNestedTypes;
