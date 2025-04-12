@@ -11,7 +11,7 @@ import { AdminApiRoleApiClient, RoleDto } from '../../../api/admin-api.service.g
 import { UtilityService } from '../../../shared/services/utility.service';
 
 @Component({
-    templateUrl: 'roles-detail.component.html',
+    templateUrl: 'role-detail.component.html',
 })
 export class RolesDetailComponent implements OnInit, OnDestroy {
     private ngUnsubscribe = new Subject<void>();

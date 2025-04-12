@@ -8,7 +8,7 @@ import {
 import { DialogService, DynamicDialogComponent } from 'primeng/dynamicdialog';
 import { AlertService } from '../../../shared/services/alert.service';
 import { ConfirmationService } from 'primeng/api';
-import { RolesDetailComponent } from './roles-detail.component';
+import { RolesDetailComponent } from './role-detail.component';
 import { MessageConstants } from '../../../shared/constants/messages.constants';
 import { PermissionGrantComponent } from '../roles/permission-grant.component'
 

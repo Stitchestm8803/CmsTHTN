@@ -12,11 +12,18 @@ import { PanelModule } from 'primeng/panel'
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
-import { RolesDetailComponent } from './roles/roles-detail.component';
+import { RolesDetailComponent } from './roles/role-detail.component';
 import { SharedModule } from 'primeng/api';
 import { CmsTHTNSharedModule } from '../../shared/modules/cmsthtn-shared.module';
 import { KeyFilterModule } from 'primeng/keyfilter'
 import { PermissionGrantComponent } from './roles/permission-grant.component';
+import { ChangeEmailComponent } from './users/change-email.component';
+import { RoleAssignComponent } from './users/role-assign.component';
+import { SetPasswordComponent } from './users/set-password.component';
+import { UserDetailComponent } from './users/user-detail.component';
+import { BadgeModule } from 'primeng/badge';
+import { PickListModule } from 'primeng/picklist';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   imports: [
@@ -34,8 +41,21 @@ import { PermissionGrantComponent } from './roles/permission-grant.component';
     KeyFilterModule,
     SharedModule,
     CmsTHTNSharedModule,
+    BadgeModule,
+    PickListModule,
+    ImageModule,
+
   ],
-  declarations: [UserComponent, RoleComponent, RolesDetailComponent, PermissionGrantComponent],
+  declarations: [
+    UserComponent, 
+    RoleComponent, 
+    RolesDetailComponent, 
+    PermissionGrantComponent,
+    ChangeEmailComponent,
+    RoleAssignComponent,
+    SetPasswordComponent,
+    UserDetailComponent,
+  ],
 })
 export class SystemModule {
 }
