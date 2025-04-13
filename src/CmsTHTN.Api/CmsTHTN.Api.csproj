@@ -22,4 +22,8 @@
     <ProjectReference Include="..\CmsTHTN.Data\CmsTHTN.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

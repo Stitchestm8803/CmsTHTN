@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using CmsTHTN.Core.Domain.Content;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace CmsTHTN.Core.Modals.Content
 {
@@ -15,7 +17,11 @@ namespace CmsTHTN.Core.Modals.Content
         public string? Thumbnail { get; set; }
         public int ViewCount { get; set; }
         public DateTime DateCreated { get; set; }
-
+        public required string CategorySlug { set; get; }
+        public required string CategoryName { set; get; }
+        public string AuthorUserName { set; get; }
+        public string AuthorName { set; get; }
+        public PostStatus Status { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles() 

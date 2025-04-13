@@ -14,7 +14,6 @@ namespace CmsTHTN.Core.Domain.Identity
         [Required]
         [MaxLength(100)]
         public required string LastName { get; set; }
-
         public bool IsActive { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpireTime { get; set; }
@@ -24,8 +23,13 @@ namespace CmsTHTN.Core.Domain.Identity
         [MaxLength(500)]
         public string? Avatar { get; set; }
         public DateTime? VipStartDate { get; set; }
-        public DateTime? VipExpireDate{ get; set; }
+        public DateTime? VipExpireDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
         public double Balance { get; set; }
+        public double RoyaltyAmountPerPost { get; set; }
+        public string GetFullName()
+        {
+            return this.FirstName + " " + this.LastName;
+        }
     }
 }
