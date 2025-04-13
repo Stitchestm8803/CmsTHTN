@@ -21,7 +21,7 @@ namespace CmsTHTN.Api.Controllers.AdminApi
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult UploadImage(string type)
+        public IActionResult? UploadImage(string type)
         {
             var allowImageTypes = _settings.AllowImageFileTypes?.Split(",");
 
