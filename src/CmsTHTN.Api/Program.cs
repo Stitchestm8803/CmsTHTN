@@ -6,9 +6,11 @@ using CmsTHTN.Core.ConfigOptions;
 using CmsTHTN.Core.Domain.Identity;
 using CmsTHTN.Core.Modals.Content;
 using CmsTHTN.Core.SeedWorks;
+using CmsTHTN.Core.Services;
 using CmsTHTN.Data;
 using CmsTHTN.Data.Repositories;
 using CmsTHTN.Data.SeedWorks;
+using CmsTHTN.Data.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
@@ -53,11 +55,11 @@ builder.Services.Configure<IdentityOptions>(options =>
     //lockout setting
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
+    options.Lockout.AllowedForNewUsers = false;
 
     //user setting
     options.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-._@+";
-    options.User.RequireUniqueEmail = false;
+    options.User.RequireUniqueEmail = true;
 }
 );
 
@@ -89,6 +91,7 @@ builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+builder.Services.AddScoped<IRoyaltyService, RoyaltyService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

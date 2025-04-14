@@ -4,6 +4,7 @@ using CmsTHTN.Core.Repository;
 using CmsTHTN.Core.SeedWorks;
 using CmsTHTN.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
+using static CmsTHTN.Core.SeedWorks.Constants.Permissions;
 
 namespace CmsTHTN.Data.SeedWorks
 {
@@ -16,12 +17,16 @@ namespace CmsTHTN.Data.SeedWorks
             Posts = new PostRepository(context, mapper, userManager);
             PostCategories = new PostCategoryRepository(context, mapper);
             Series = new SeriesRepository(context, mapper);
+            Transactions = new TransactionRepository(context, mapper);
+            Users = new UserRepository(context);
         }
         public IPostRepository Posts { get; set; }
 
         public IPostCategoryRepository PostCategories {  get; private set; }
 
         public ISeriesRepository Series { get; private set; }
+        public ITransactionRepository Transactions { get; private set; }
+        public IUserRepository Users { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

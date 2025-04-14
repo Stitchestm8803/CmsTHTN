@@ -7,14 +7,12 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-speedometer' },
     badge: {
       color: 'info',
-      text: 'NEW'
+      text: 'NEW',
     },
     attributes: {
       "policyName": "Permissions.Dashboard.View"
     }
   },
-
-
   {
     name: 'Nội dung',
     url: '/content',
@@ -40,15 +38,36 @@ export const navItems: INavData[] = [
         attributes: {
           "policyName": "Permissions.Series.View"
         }
-      },
+      }
+    ],
+  },
+  {
+    name: 'Nhuận bút',
+    url: '/royalty',
+    iconComponent: { name: 'cil-puzzle' },
+    children: [
       {
-        name: 'Nhuận bút',
-        url: '/content/royalty',
+        name: 'Thống kê tháng',
+        url: '/royalty/royalty-month',
         attributes: {
           "policyName": "Permissions.Royalty.View"
         }
       },
-    ]
+      {
+        name: 'Thống kê tác giả',
+        url: '/royalty/royalty-user',
+        attributes: {
+          "policyName": "Permissions.Royalty.View"
+        }
+      },
+      {
+        name: 'Giao dịch',
+        url: '/royalty/transactions',
+        attributes: {
+          "policyName": "Permissions.Royalty.View"
+        }
+      }
+    ],
   },
   {
     name: 'Hệ thống',
@@ -68,8 +87,7 @@ export const navItems: INavData[] = [
         attributes: {
           "policyName": "Permissions.Users.View"
         }
-      },
-      
-    ]
+      }
+    ],
   },
-];
+]

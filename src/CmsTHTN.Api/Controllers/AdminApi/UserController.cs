@@ -10,6 +10,8 @@ using static CmsTHTN.Core.SeedWorks.Constants.Permissions;
 using CmsTHTN.Core.Models.System;
 using Microsoft.EntityFrameworkCore;
 using CmsTHTN.Api.Extensions;
+using CmsTHTN.Core.SeedWorks;
+using CmsTHTN.Core.Repository;
 
 namespace CmsTHTN.Api.Controllers.AdminApi
 {
@@ -18,11 +20,13 @@ namespace CmsTHTN.Api.Controllers.AdminApi
     {
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserController(UserManager<AppUser> userManager, IMapper mapper)
+        public UserController(UserManager<AppUser> userManager, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _userManager = userManager;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("{id}")]
@@ -195,15 +199,13 @@ namespace CmsTHTN.Api.Controllers.AdminApi
                 return NotFound();
             }
             var currentRoles = await _userManager.GetRolesAsync(user);
-            var removedResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            await _unitOfWork.Users.RemoveUserFromRoles(user.Id, currentRoles.ToArray());
             var addedResult = await _userManager.AddToRolesAsync(user, roles);
-            if (!addedResult.Succeeded || !removedResult.Succeeded)
+            if (!addedResult.Succeeded)
             {
                 List<IdentityError> addedErrorList = addedResult.Errors.ToList();
-                List<IdentityError> removedErrorList = removedResult.Errors.ToList();
                 var errorList = new List<IdentityError>();
                 errorList.AddRange(addedErrorList);
-                errorList.AddRange(removedErrorList);
 
                 return BadRequest(string.Join("<br/>", errorList.Select(x => x.Description)));
             }

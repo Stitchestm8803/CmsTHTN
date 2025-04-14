@@ -1,5 +1,6 @@
 ﻿using CmsTHTN.Core.Domain.Content;
 using CmsTHTN.Core.Domain.Identity;
+using CmsTHTN.Core.Domain.Royalty;
 using CmsTHTN.Core.SeedWorks.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace CmsTHTN.Data
         public DbSet<PostActivityLog> PostActivityLogs { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<PostInSeries> PostInSeries { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

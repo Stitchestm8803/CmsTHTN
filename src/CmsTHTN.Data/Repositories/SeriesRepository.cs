@@ -6,10 +6,11 @@ using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.Repository;
 using CmsTHTN.Data.SeedWorks;
 using Microsoft.EntityFrameworkCore;
+using static CmsTHTN.Core.SeedWorks.Constants.Permissions;
 
 namespace CmsTHTN.Data.Repositories
 {
-    public class SeriesRepository : RepositoryBase<Series, Guid>, ISeriesRepository
+    public class SeriesRepository : RepositoryBase<Core.Domain.Content.Series, Guid>, ISeriesRepository
     {
         private readonly IMapper _mapper;
         public SeriesRepository(CmsTHTNContext context, IMapper mapper) : base(context)
@@ -62,6 +63,11 @@ namespace CmsTHTN.Data.Repositories
                         where pis.SeriesId == seriesId
                         select p;
             return await _mapper.ProjectTo<PostInListDto>(query).ToListAsync();
+        }
+
+        public async Task<bool> HasPost(Guid seriesId)
+        {
+            return await _context.PostInSeries.AnyAsync(x => x.SeriesId == seriesId);
         }
 
         public async Task<bool> IsPostInSeries(Guid seriesId, Guid postId)
