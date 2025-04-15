@@ -9,7 +9,7 @@ import { Page500Component } from './page500/page500.component';
 import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BroadcastService } from '../../shared/services/boardcasst.service'
+import { BroadcastService } from '../../shared/services/broadcast.service'
 
 
 @NgModule({

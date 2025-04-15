@@ -15,7 +15,7 @@ import { AlertService } from '../../../shared/services/alert.service';
 import { UrlConstants } from '../../../shared/constants/url.constants';
 import { TokenStorageService } from '../../../shared/services/token-storage.service';
 import { Subject, takeUntil } from 'rxjs';
-import { BroadcastService } from '../../../shared/services/boardcasst.service';
+import { BroadcastService } from '../../../shared/services/broadcast.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
