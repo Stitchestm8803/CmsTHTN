@@ -193,9 +193,9 @@ namespace CmsTHTN.Data.Repositories
         public async Task<List<Post>> GetListUnpaidPublishPosts(Guid userId)
         {
             return await _context.Posts
-                .Where(x => x.AuthorUserId == userId && x.IsPaid == false
-                && x.Status == PostStatus.Published)
-                .ToListAsync();
+               .Where(x => x.AuthorUserId == userId && x.IsPaid == false
+                       && x.Status == PostStatus.Published)
+               .ToListAsync();
         }
 
         public async Task<List<PostInListDto>> GetLatestPublishPost(int top)
@@ -205,6 +205,31 @@ namespace CmsTHTN.Data.Repositories
                 .OrderByDescending(x => x.DateCreated);
 
             return await _mapper.ProjectTo<PostInListDto>(query).ToListAsync();
+        }
+
+        public async Task<PagedResult<PostInListDto>> GetPostByCategoryPaging(string categorySlug, int pageIndex = 1, int pageSize = 10)
+        {
+            var query = _context.Posts.AsQueryable();
+
+            if (!string.IsNullOrEmpty(categorySlug))
+            {
+                query = query.Where(x => x.CategorySlug == categorySlug);
+            }
+
+            var totalRow = await query.CountAsync();
+
+            query = query.OrderByDescending(x => x.DateCreated)
+               .Skip((pageIndex - 1) * pageSize)
+               .Take(pageSize);
+
+            return new PagedResult<PostInListDto>
+            {
+                Results = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync(),
+                CurrentPage = pageIndex,
+                RowCount = totalRow,
+                PageSize = pageSize
+            };
+
         }
     }
 }
