@@ -18,5 +18,6 @@ namespace CmsTHTN.Core.Repository
         Task<bool> HasPublishInLast(Guid id);
         Task<List<PostActivityLogDto>> GetActivityLogs(Guid id);
         Task<List<Post>> GetListUnpaidPublishPosts(Guid userId);
+        Task<List<PostInListDto>> GetLatestPublishPost(int top);
     }
 }
