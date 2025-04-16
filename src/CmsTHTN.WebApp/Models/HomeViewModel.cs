@@ -1,4 +1,4 @@
-﻿using CmsTHTN.Core.Modals.Content;
+﻿using CmsTHTN.Core.Models.Content;
 
 namespace CmsTHTN.WebApp.Models
 {

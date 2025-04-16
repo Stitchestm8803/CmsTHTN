@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CmsTHTN.Core.Domain.Content;
 using CmsTHTN.Core.Domain.Identity;
-using CmsTHTN.Core.Modals;
-using CmsTHTN.Core.Modals.Content;
+using CmsTHTN.Core.Models;
+using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.Repository;
 using CmsTHTN.Core.SeedWorks.Constants;
@@ -230,6 +230,13 @@ namespace CmsTHTN.Data.Repositories
                 PageSize = pageSize
             };
 
+        }
+
+        public async Task<PostDto> GetBySlug(string slug)
+        {
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.Slug == slug);
+            if (post == null) throw new Exception($"Không thể tìm bài viết với địa chỉ Slug: {slug}");
+            return _mapper.Map<PostDto>(post);
         }
     }
 }

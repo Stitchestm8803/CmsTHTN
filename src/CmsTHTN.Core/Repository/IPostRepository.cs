@@ -1,6 +1,6 @@
 ﻿using CmsTHTN.Core.Domain.Content;
-using CmsTHTN.Core.Modals;
-using CmsTHTN.Core.Modals.Content;
+using CmsTHTN.Core.Models;
+using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.SeedWorks;
 
@@ -22,5 +22,6 @@ namespace CmsTHTN.Core.Repository
         Task<List<PostInListDto>> GetLatestPublishPost(int top);
 
         Task<PagedResult<PostInListDto>> GetPostByCategoryPaging(string categorySlug, int pageIndex = 1, int pageSize = 10);
+        Task<PostDto> GetBySlug(string slug);
     }
 }

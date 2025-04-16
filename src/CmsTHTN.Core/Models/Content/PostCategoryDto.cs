@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CmsTHTN.Core.Domain.Content;
 
-namespace CmsTHTN.Core.Modals.Content
+namespace CmsTHTN.Core.Models.Content
 {
     public class PostCategoryDto
     {

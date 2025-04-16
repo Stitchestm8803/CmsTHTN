@@ -1,6 +1,6 @@
 ﻿using CmsTHTN.Api.Services;
 using CmsTHTN.Core.Domain.Identity;
-using CmsTHTN.Core.Modals.Auth;
+using CmsTHTN.Core.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

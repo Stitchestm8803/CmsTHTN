@@ -4,7 +4,7 @@ using CmsTHTN.Core.ConfigOptions;
 using CmsTHTN.Core.Domain.Identity;
 using CmsTHTN.Data;
 using CmsTHTN.WebApp.Helpers;
-using CmsTHTN.Core.Modals.Content;
+using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.SeedWorks;
 using CmsTHTN.Data.Repositories;
 using CmsTHTN.Data.SeedWorks;

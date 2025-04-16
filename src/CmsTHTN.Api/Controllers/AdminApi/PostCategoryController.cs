@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CmsTHTN.Core.Domain.Content;
-using CmsTHTN.Core.Modals.Content;
-using CmsTHTN.Core.Modals;
+using CmsTHTN.Core.Models.Content;
+using CmsTHTN.Core.Models;
 using CmsTHTN.Core.SeedWorks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

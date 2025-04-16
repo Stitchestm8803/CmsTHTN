@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CmsTHTN.Core.Domain.Identity;
 
-namespace CmsTHTN.Core.Modals.System
+namespace CmsTHTN.Core.Models.System
 {
     public class RoleDto
     {

@@ -3,7 +3,7 @@ using CmsTHTN.Core.Domain.Content;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace CmsTHTN.Core.Modals.Content
+namespace CmsTHTN.Core.Models.Content
 {
     public class PostInListDto
     {

@@ -4,7 +4,7 @@ using CmsTHTN.Api.Filters;
 using CmsTHTN.Api.Services;
 using CmsTHTN.Core.ConfigOptions;
 using CmsTHTN.Core.Domain.Identity;
-using CmsTHTN.Core.Modals.Content;
+using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.SeedWorks;
 using CmsTHTN.Core.Services;
 using CmsTHTN.Data;

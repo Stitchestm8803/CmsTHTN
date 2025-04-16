@@ -1,5 +1,5 @@
 ﻿using CmsTHTN.Core.Domain.Identity;
-using CmsTHTN.Core.Modals.System;
+using CmsTHTN.Core.Models.System;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.Reflection;

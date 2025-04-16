@@ -1,4 +1,4 @@
-﻿namespace CmsTHTN.Core.Modals
+﻿namespace CmsTHTN.Core.Models
 {
     public abstract class PagedResultBase
     {

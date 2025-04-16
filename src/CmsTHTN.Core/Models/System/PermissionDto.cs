@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CmsTHTN.Core.Modals.System
+namespace CmsTHTN.Core.Models.System
 {
     public class PermissionDto
     {

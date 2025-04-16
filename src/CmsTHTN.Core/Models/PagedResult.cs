@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CmsTHTN.Core.Modals
+namespace CmsTHTN.Core.Models
 {
     public class PagedResult<T> : PagedResultBase where T : class
     {

@@ -2,8 +2,8 @@
 using CmsTHTN.Api.Extensions;
 using CmsTHTN.Core.Domain.Content;
 using CmsTHTN.Core.Domain.Identity;
-using CmsTHTN.Core.Modals;
-using CmsTHTN.Core.Modals.Content;
+using CmsTHTN.Core.Models;
+using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.SeedWorks;
 using Microsoft.AspNetCore.Authorization;

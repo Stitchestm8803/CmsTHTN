@@ -1,5 +1,5 @@
 ﻿using CmsTHTN.Core.Domain.Royalty;
-using CmsTHTN.Core.Modals;
+using CmsTHTN.Core.Models;
 using CmsTHTN.Core.Models.Royalty;
 using CmsTHTN.Core.SeedWorks;
 

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CmsTHTN.Api.Extensions;
 using CmsTHTN.Core.Domain.Identity;
-using CmsTHTN.Core.Modals.System;
-using CmsTHTN.Core.Modals;
+using CmsTHTN.Core.Models.System;
+using CmsTHTN.Core.Models;
 using CmsTHTN.Core.SeedWorks.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

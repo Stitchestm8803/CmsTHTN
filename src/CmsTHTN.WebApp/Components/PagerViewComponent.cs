@@ -1,4 +1,4 @@
-﻿using CmsTHTN.Core.Modals;
+﻿using CmsTHTN.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CmsTHTN.WebApp.Components

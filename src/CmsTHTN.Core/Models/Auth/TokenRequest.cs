@@ -1,4 +1,4 @@
-﻿namespace CmsTHTN.Core.Modals.Auth
+﻿namespace CmsTHTN.Core.Models.Auth
 {
     public class TokenRequest
     {
