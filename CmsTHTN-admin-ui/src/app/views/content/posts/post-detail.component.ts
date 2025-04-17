@@ -3,9 +3,13 @@ import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms'
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { UtilityService } from '../../../shared/services/utility.service';
-import { AdminApiPostApiClient, AdminApiPostCategoryApiClient, PostCategoryDto, PostDto } from '../../../api/admin-api.service.generated';
+import { AdminApiPostApiClient, AdminApiPostCategoryApiClient, PostCategoryDto, PostDto} from '../../../api/admin-api.service.generated';
 import { UploadService } from '../../../shared/services/upload.service';
 import { environment } from '../../../../environments/environment';
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
 @Component({
   templateUrl: 'post-detail.component.html',
 })
@@ -24,6 +28,10 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
   selectedEntity = {} as PostDto;
   public thumbnailImage;
+
+  tags: any[] | undefined;
+  filteredTags: any[] | undefined;
+  postTags: string[];
 
   formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
 
@@ -65,15 +73,18 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     this.buildForm();
     //Load data to form
     var categories = this.postCategoryApiClient.getPostCategories();
-
+    var tags = this.postApiClient.getAllTags();
     this.toggleBlockUI(true);
     forkJoin({
-      categories
+      categories,
+      tags,
     })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (repsonse: any) => {
           //Push categories to dropdown list
+          this.tags = repsonse.tags as string[];
+
           var categories = repsonse.categories as PostCategoryDto[];
           categories.forEach(element => {
             this.postCategories.push({
@@ -82,7 +93,12 @@ export class PostDetailComponent implements OnInit, OnDestroy {
             });
           });
           if (this.utilService.isEmpty(this.config.data?.id) == false) {
-            this.loadFormDetails(this.config.data?.id);
+            this.postApiClient
+            .getPostTags(this.config.data.id)
+            .subscribe((res) => {
+              this.postTags = res;
+              this.loadFormDetails(this.config.data?.id);
+            })
           } else {
             this.toggleBlockUI(false);
           }
@@ -184,16 +200,29 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       categoryId: new FormControl(this.selectedEntity.categoryId || null, Validators.required),
       description: new FormControl(this.selectedEntity.description || null, Validators.required),
       seoDescription: new FormControl(this.selectedEntity.seoDescription || null),
-      tags: new FormControl(this.selectedEntity.tags || null),
       content: new FormControl(this.selectedEntity.content || null),
-      thumbnail: new FormControl(
-        this.selectedEntity.thumbnail || null
-      ),
+      thumbnail: new FormControl(this.selectedEntity.thumbnail || null),
+      tags: new FormControl(this.postTags),
     });
     if (this.selectedEntity.thumbnail) {
       this.thumbnailImage = environment.API_URL + this.selectedEntity.thumbnail;
 
     }
 
+  }
+  filterTag(event: AutoCompleteCompleteEvent) {
+    let filtered: string[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < (this.tags as string[]).length; i++) {
+      let tag = (this.tags as string[])[i];
+      if (tag.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(tag);
+      }
+    }
+    if (filtered.length == 0) {
+      filtered.push(query);
+    }
+    this.filteredTags = filtered;
   }
 }

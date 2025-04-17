@@ -17,7 +17,7 @@ namespace CmsTHTN.Core.Models.Content
 
         public string? Source { get; set; }
 
-        public string? Tags { get; set; }
+        public string[] Tags { get; set; }
 
         public string? SeoDescription { get; set; }
         public class AutoMapperProfiles : Profile

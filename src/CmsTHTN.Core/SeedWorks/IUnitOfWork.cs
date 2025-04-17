@@ -8,7 +8,9 @@ namespace CmsTHTN.Core.SeedWorks
         IPostCategoryRepository PostCategories { get; }
         ISeriesRepository Series { get; }
         ITransactionRepository Transactions { get; }
-        Task<int> CompleteAsync();
         IUserRepository Users { get; }
+        ITagRepository Tags { get; }
+        Task<int> CompleteAsync();
+
     }
 }
