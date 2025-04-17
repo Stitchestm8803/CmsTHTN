@@ -1,7 +1,7 @@
-﻿@model PostListByTagViewModel
+﻿@model SeriesDetailViewModel
 @{
-    ViewData["Title"] = Model.Tag.Name + (Model.Posts.CurrentPage > 1 ? $" - Trang {Model.Posts.CurrentPage}" : "");
-    ViewData["Description"] = "Bài viết theo tag: " + Model.Tag.Name + (Model.Posts.CurrentPage > 1 ? $" - Trang {Model.Posts.CurrentPage}" : "");
+    ViewData["Title"] = Model.Series.Name + (Model.Posts.CurrentPage > 1 ? $" - Trang {Model.Posts.CurrentPage}" : "");
+    ViewData["Description"] = Model.Series.SeoDescription + (Model.Posts.CurrentPage > 1 ? $" - Trang {Model.Posts.CurrentPage}" : "");
 }
 <!-- Page Header-->
 <header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
@@ -9,7 +9,7 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
-                    <h1>@Model.Tag.Name</h1>
+                    <h1>@Model.Series.Name</h1>
                 </div>
             </div>
         </div>
