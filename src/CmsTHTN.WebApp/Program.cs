@@ -8,6 +8,7 @@ using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.SeedWorks;
 using CmsTHTN.Data.Repositories;
 using CmsTHTN.Data.SeedWorks;
+using CmsTHTN.Core.Events.LoginSuccessed;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -58,6 +59,7 @@ builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>,
 #endregion
 
 builder.Services.AddAutoMapper(typeof(PostInListDto));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginSuccessedEvent).Assembly));
 
 #region Configure Services
 // Add services to the container.
