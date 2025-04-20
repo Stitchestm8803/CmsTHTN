@@ -9,6 +9,7 @@ using CmsTHTN.Core.SeedWorks;
 using CmsTHTN.Data.Repositories;
 using CmsTHTN.Data.SeedWorks;
 using CmsTHTN.Core.Events.LoginSuccessed;
+using CmsTHTN.WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -21,7 +22,7 @@ builder.Services.AddControllersWithViews();
 
 //Custom setup
 builder.Services.Configure<SystemConfig>(configuration.GetSection("SystemConfig"));
-
+builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 builder.Services.AddDbContext<CmsTHTNContext>(options => options.UseSqlServer(connectionString));
 
 #region Configure Identity
@@ -65,6 +66,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Login
 // Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 // Business services and repositories
 var services = typeof(PostRepository).Assembly.GetTypes()

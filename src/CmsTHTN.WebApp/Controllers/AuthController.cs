@@ -1,12 +1,16 @@
-﻿using CmsTHTN.Core.Domain.Identity;
+﻿using CmsTHTN.Core.ConfigOptions;
+using CmsTHTN.Core.Domain.Identity;
 using CmsTHTN.Core.Events.LoginSuccessed;
 using CmsTHTN.Core.Events.RegisterSuccessed;
 using CmsTHTN.Core.SeedWorks.Constants;
+using CmsTHTN.WebApp.Extensions;
 using CmsTHTN.WebApp.Models;
+using CmsTHTN.WebApp.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace CmsTHTN.WebApp.Controllers
 {
@@ -15,12 +19,17 @@ namespace CmsTHTN.WebApp.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IMediator _mediator;
+        private readonly IEmailSender _emailSender;
+        private readonly SystemConfig _systemConfig;
         public AuthController(UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager, IMediator mediator)
+            SignInManager<AppUser> signInManager, IMediator mediator,
+            IEmailSender emailSender, IOptions<SystemConfig> systemConfig)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mediator = mediator;
+            _emailSender = emailSender;
+            _systemConfig = systemConfig.Value;
         }
 
         [HttpGet]
@@ -103,5 +112,83 @@ namespace CmsTHTN.WebApp.Controllers
             }
             return View();
         }
+        [HttpGet]
+        [Route("forgot-password")]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("forgot-password")]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Không thể tìm được người dùng có Email này");
+            }
+
+            // For more information on how to enable account confirmation and password reset please
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
+
+            //var emailData = new EmailData
+            //{
+            //    ToEmail = user.Email ?? string.Empty,
+            //    Subject = $"{_systemConfig.AppName} - Lấy lại mật khẩu",
+            //    Content = $"Chào {user.FirstName}. Bạn vừa gửi yêu cầu lấy lại mật khẩu tại {_systemConfig.AppName}. Click: <a href='{callbackUrl}'>vào đây</a> để đặt lại mật khẩu. Trân trọng."
+            //};
+            //await _emailSender.SendEmail(emailData);
+
+
+            TempData[SystemConsts.FormSuccessMsg] = "Kiểm tra email của bạn để lấy mã";
+            return Redirect(UrlConsts.Login);
+        }
+
+        [HttpGet]
+        [Route("reset-password")]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string code = null)
+        {
+            if (code == null)
+            {
+                throw new ApplicationException("Bạn phải nhập mã xác nhận");
+            }
+            return View(new ResetPasswordViewModel { Code = code });
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("reset-password")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                ModelState.AddModelError(string.Empty, "Email không tồn tại");
+                return View();
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                TempData[SystemConsts.FormSuccessMsg] = "Đổi mật khẩu thành công";
+                return Redirect(UrlConsts.Login);
+            }
+            return View();
+        }
+
     }
 }

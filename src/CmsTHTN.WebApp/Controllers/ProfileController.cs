@@ -27,8 +27,7 @@ namespace CmsTHTN.WebApp.Controllers
         [Route("/profile")]
         public async Task<IActionResult> Index()
         {
-            var userId = User.GetUserId();
-            var user = await _unitOfWork.Users.GetByIdAsync(userId);
+            var user = await GetCurrentUser();
             return View(new ProfileViewModel()
             {
                 Email = user.Email,
@@ -41,8 +40,7 @@ namespace CmsTHTN.WebApp.Controllers
         [Route("/profile/edit")]
         public async Task<IActionResult> ChangeProfile()
         {
-            var userId = User.GetUserId();
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await GetCurrentUser();
             return View(new ChangeProfileViewModel()
             {
                 FirstName = user.FirstName,
@@ -52,16 +50,16 @@ namespace CmsTHTN.WebApp.Controllers
 
         [Route("/profile/edit")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeProfile([FromForm] ChangeProfileViewModel model)
         {
-            var userId = User.GetUserId();
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await GetCurrentUser();
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                TempData["Success"] = "Cập nhật thành công.";
+                TempData[SystemConsts.FormSuccessMsg] = "Cập nhật thành công.";
             }
             else
             {
@@ -69,6 +67,47 @@ namespace CmsTHTN.WebApp.Controllers
             }
             return View(model);
 
+        }
+
+        [Route("profile/change-password")]
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Route("profile/change-password")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var userProfile = await GetCurrentUser();
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(userProfile, model.OldPassword);
+            if (!isPasswordValid)
+            {
+                ModelState.AddModelError(string.Empty, "Mật khẩu cũ không đúng");
+                return View(model);
+            }
+
+            var result = await _userManager.ChangePasswordAsync(userProfile, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                await _signInManager.RefreshSignInAsync(userProfile);
+                TempData[SystemConsts.FormSuccessMsg] = "Đổi mật khẩu thành công";
+                return Redirect(UrlConsts.Profile);
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View(model);
         }
 
         [HttpPost]
@@ -79,6 +118,11 @@ namespace CmsTHTN.WebApp.Controllers
             await HttpContext.SignOutAsync();
 
             return Redirect(UrlConsts.Home);
+        }
+        private async Task<AppUser> GetCurrentUser()
+        {
+            var userId = User.GetUserId();
+            return await _userManager.FindByIdAsync(userId.ToString());
         }
     }
 }
