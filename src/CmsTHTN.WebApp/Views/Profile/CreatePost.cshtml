@@ -1,0 +1,90 @@
+﻿﻿@{
+    ViewData["Title"] = "Create new post";
+    ViewData["Description"] = "Create new post";
+
+}
+@section Scripts {
+    <script src="https://cdn.tiny.cloud/1/e1x5t2iiu7zadoz0g4awq2jp988me4tdpxzt6ktba28ggrdk/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#txtContent',
+            plugins: [
+                // Core editing features
+                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+                // Your account includes a free trial of TinyMCE premium features
+                // Try the most popular premium features until May 4, 2025:
+                'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
+            ],
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+        });
+    </script>
+}
+@model CreatePostViewModel
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Tạo mới bài viết</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <form asp-action="CreatePost" asp-controller="Profile" method="post" enctype="multipart/form-data">
+                <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+                @if (TempData[SystemConsts.FormSuccessMsg] != null)
+                {
+                    <div class="alert alert-success">@TempData[SystemConsts.FormSuccessMsg]</div>
+                }
+                <div class="col-md-12">
+                    <label for="Title" class="form-label">Tiêu đề</label>
+                    <input type="text" class="form-control" asp-for="Title" id="Title" required>
+                    <span asp-validation-for="Title" class="invalid-feedback"></span>
+                </div>
+                <div class="col-md-12">
+                    <label for="Description" class="form-label">Mô tả</label>
+                    <input type="text" class="form-control" asp-for="Description" id="Description" required>
+                    <span asp-validation-for="Description" class="invalid-feedback"></span>
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="CategoryId" class="form-label">Danh mục</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="Model.Categories">
+                        <option>Hãy chọn danh mục cho bài viết</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="invalid-feedback"></span>
+
+                </div>
+                <div class="col-md-12">
+                    <label for="thumbnail" class="form-label">Thumbnail</label>
+                    <input type="file" class="form-control" name="thumbnail" id="thumbnail" required>
+                    <input type="hidden" asp-for="ThumbnailImage" />
+                </div>
+                <div class="col-md-12">
+                    <label for="SeoDescription" class="form-label">Mô tả SEO</label>
+                    <textarea class="form-control" asp-for="SeoDescription" id="SeoDescription" rows="5"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <label for="Content" class="form-label">Nội dung</label>
+                    <textarea class="form-control" asp-for="Content" id="txtContent"></textarea>
+                </div>
+                <div class="col-12 mt-3">
+                    <button class="btn btn-primary" type="submit">Tạo</button>
+                    <a href="@UrlConsts.PostListByUser">Bài viết của bạn</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

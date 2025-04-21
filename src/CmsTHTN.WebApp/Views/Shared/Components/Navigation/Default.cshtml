@@ -39,6 +39,7 @@
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <a class="btn" href="@UrlConsts.Profile">@User.GetFirstName()</a>
+                    <a class="btn" href="@UrlConsts.CreatePost">Tạo bài viết</a>
                 }
                 else
                 {
