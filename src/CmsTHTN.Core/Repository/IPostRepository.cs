@@ -2,6 +2,7 @@
 using CmsTHTN.Core.Models;
 using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.SeedWorks;
+using System.Threading.Tasks;
 
 namespace CmsTHTN.Core.Repository
 {
@@ -28,5 +29,8 @@ namespace CmsTHTN.Core.Repository
         Task<List<TagDto>> GetTagObjectsByPostId(Guid postId);
 
         Task<PagedResult<PostInListDto>> GetPostByTagPaging(string tagSlug, int pageIndex = 1, int pageSize = 10);
+
+        Task<PagedResult<PostInListDto>> GetPostByUserPaging(string keyword, Guid userId, int pageIndex = 1, int pageSize = 10);
+
     }
 }

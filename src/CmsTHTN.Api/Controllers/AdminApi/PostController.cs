@@ -5,7 +5,6 @@ using CmsTHTN.Core.Domain.Identity;
 using CmsTHTN.Core.Helpers;
 using CmsTHTN.Core.Models;
 using CmsTHTN.Core.Models.Content;
-using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.SeedWorks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -33,8 +32,8 @@ namespace CmsTHTN.Api.Controllers.AdminApi
         {
             if (await _unitOfWork.Posts.IsSlugAlreadyExisted(request.Slug))
             {
-                return BadRequest("Đã tồn tại slug");
-            }
+                return BadRequest("Đã trùng slug");
+            };
             var post = _mapper.Map<CreateUpdatePostRequest, Post>(request);
             var postId = Guid.NewGuid();
             var category = await _unitOfWork.PostCategories.GetByIdAsync(request.CategoryId);

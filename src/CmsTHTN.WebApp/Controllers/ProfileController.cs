@@ -15,6 +15,10 @@ using System.Text.Json;
 using CmsTHTN.Core.ConfigOptions;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using CmsTHTN.Data;
+using Microsoft.EntityFrameworkCore;
+using static CmsTHTN.Core.SeedWorks.Constants.Permissions;
+using Microsoft.Extensions.Hosting;
 
 namespace CmsTHTN.WebApp.Controllers
 {
@@ -25,15 +29,18 @@ namespace CmsTHTN.WebApp.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly SystemConfig _config;
+        private readonly CmsTHTNContext _context;
         public ProfileController(IUnitOfWork unitOfWork,
             SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
-            IOptions<SystemConfig> systemConfig)
+            IOptions<SystemConfig> systemConfig,
+            CmsTHTNContext context)
         {
             _unitOfWork = unitOfWork;
             _signInManager = signInManager;
             _userManager = userManager;
             _config = systemConfig.Value;
+            _context = context;
         }
         [Route("/profile")]
         public async Task<IActionResult> Index()
@@ -142,8 +149,8 @@ namespace CmsTHTN.WebApp.Controllers
         {
             return View(await SetCreatePostModel());
         }
+
         [Route("/profile/posts/create")]
-       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost([FromForm] CreatePostViewModel model, IFormFile thumbnail)
@@ -187,6 +194,58 @@ namespace CmsTHTN.WebApp.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Route("profile/posts/edit/{id}")]
+        public async Task<IActionResult> GetPostById(Guid id)
+        {
+            var post = await _unitOfWork.Posts.GetByIdAsync(id);
+            if (post == null)
+                return NotFound("Bài viết không tồn tại!");
+            var thumbnailUrl = await GetThumbnail(post.Id);
+            var model = new EditPostViewModel
+            {
+                Id = id,
+                Title = post.Name,
+                CategoryId = post.CategoryId,
+                Content = post.Content,
+                SeoDescription = post.SeoDescription,
+                Description = post.Description,
+                Categories = new SelectList(await _unitOfWork.PostCategories.GetAllAsync(), "Id", "Name"),
+                ThumbnailImage = thumbnailUrl ?? post.Thumbnail
+            };
+            return View("EditPost", model);
+        }
+
+        [HttpPost]
+        [Route("profile/posts/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPost([FromForm] EditPostViewModel model, IFormFile thumbnail)
+        {
+            var post = await _unitOfWork.Posts.GetByIdAsync(model.Id);
+            var category = await _unitOfWork.PostCategories.GetByIdAsync(model.CategoryId);
+
+            if (post == null)
+            {
+                return NotFound("Bài viết không tồn tại!");
+            }
+            post.CategoryId = model.CategoryId;
+            post.CategoryName = category.Name;
+            post.CategorySlug = category.Slug;
+            post.Content = model.Content;
+            post.SeoDescription = model.SeoDescription;
+            post.Description = model.Description;
+            post.DateModified = DateTime.Now;
+            if (thumbnail != null)
+            {
+                await UploadThumbnail(thumbnail, post);
+                post.Thumbnail = await GetThumbnail(post.Id) ?? post.Thumbnail;
+            }
+            await _unitOfWork.CompleteAsync();
+            TempData[SystemConsts.FormSuccessMsg] = "Bài viết được cập nhật thành công.";
+
+            return Redirect($"{UrlConsts.EditPost}/{post.Id}");
+        }
+
         private async Task UploadThumbnail(IFormFile thumbnail, Post post)
         {
             using (var client = new HttpClient())
@@ -221,6 +280,28 @@ namespace CmsTHTN.WebApp.Controllers
             }
         }
 
+        private async Task<string?> GetThumbnail(Guid postId)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_config.BackendApiUrl);
+
+                // Gửi request GET để lấy thông tin thumbnail của bài viết theo ID
+                var response = await client.GetAsync($"api/admin/media/thumbnail?postId={postId}");
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    Console.WriteLine($"Lỗi khi lấy thumbnail: {await response.Content.ReadAsStringAsync()}");
+                    return null; // Nếu có lỗi, trả về null
+                }
+
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var pathObj = JsonSerializer.Deserialize<UploadResponse>(jsonResponse);
+                return pathObj?.Path; // Trả về đường dẫn thumbnail
+            }
+        }
+
+
         private async Task<CreatePostViewModel> SetCreatePostModel()
         {
             var model = new CreatePostViewModel()
@@ -233,9 +314,37 @@ namespace CmsTHTN.WebApp.Controllers
 
         [HttpGet]
         [Route("/profile/posts/list")]
-        public async Task<IActionResult> ListPosts()
+        public async Task<IActionResult> ListPosts(string keyword, int page = 1)
         {
-            return View(await SetCreatePostModel());
+            var userId = User.GetUserId();
+            var posts = await _unitOfWork.Posts.GetPostByUserPaging(keyword, userId, page, 12);
+            return View(new ListPostByUserViewModel()
+            {
+                Posts = posts,
+                TotalPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId),
+                TotalDraftPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Draft),
+                TotalWaitingApprovalPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.WaitingForApproval),
+                TotalPublishedPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Published),
+                TotalUnpaidPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Published && x.IsPaid == false),
+                TotalPaidAmount = await _context.Posts.Where(x => x.AuthorUserId == userId && x.Status == PostStatus.Published && x.IsPaid == true).SumAsync(x => x.RoyaltyAmount)
+            });
+        }
+
+        [HttpPost]
+        [Route("/profile/posts/send-approve/{id}")]
+        public async Task<IActionResult> SendApprove(Guid id, [FromQuery] bool approve)
+        {
+            var post = await _unitOfWork.Posts.GetByIdAsync(id);
+            if (approve)
+            {
+                post.Status = PostStatus.WaitingForApproval;
+                await _unitOfWork.CompleteAsync();
+                return Ok(new { message = "Bài viết đang đợi duyệt", post });
+            }
+            else
+            {
+                return Redirect("/profile/posts/list");
+            }  
         }
     }
 }
