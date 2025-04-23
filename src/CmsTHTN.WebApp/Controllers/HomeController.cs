@@ -20,7 +20,7 @@ namespace CmsTHTN.WebApp.Controllers
         {
             var viewModel = new HomeViewModel()
             {
-                LatestPosts = await _unitOfWork.Posts.GetLatestPublishPost(10)
+                LatestPosts = await _unitOfWork.Posts.GetLatestPublishPost(10),
             };
             return View(viewModel);
         }

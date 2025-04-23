@@ -65,11 +65,11 @@
                 </div>
                 <div class="col-md-12">
                     <label for="thumbnail" class="form-label">Thumbnail</label>
-                    <input type="file" class="form-control" name="thumbnail" id="thumbnail" placeholder="...">
+                    <input type="file" class="form-control" name="thumbnail" id="thumbnail">
                     <input type="hidden" asp-for="ThumbnailImage" />
                     @if (!string.IsNullOrEmpty(Model.ThumbnailImage))
                     {
-                        <img src="https://localhost:7240/@Url.Content(Model.ThumbnailImage)" alt="Thumbnail bài viết" style="max-width: 200px;" />
+                        <img src="https://localhost:7240/@Url.Content(Model.ThumbnailImage)" alt="Thumbnail bài viết" style="width: 200px; height: auto" />
                     }
                 </div>
                 <div class="col-md-12">

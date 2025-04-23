@@ -11,6 +11,7 @@ namespace CmsTHTN.Core.Models.Content
         public required string Slug { get; set; }
         public bool IsActive { get; set; }
         public int SortOrder { get; set; }
+        public string? Thumbnail { get; set; }
         public string? SeoKeywords { get; set; }
         public Guid OwnerUserId { get; set; }
 

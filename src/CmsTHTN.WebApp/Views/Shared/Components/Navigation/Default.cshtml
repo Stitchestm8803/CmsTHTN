@@ -38,8 +38,18 @@
             <span class="navbar-text">
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a class="btn" href="@UrlConsts.Profile">@User.GetFirstName()</a>
-                    <a class="btn" href="@UrlConsts.CreatePost">Tạo bài viết</a>
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a style="color: lightgoldenrodyellow;" class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Profile">@User.GetFirstName()</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle px-lg-3 py-3 py-lg-4" href="@UrlConsts.Posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Nghiệp vụ
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" title="CreatePost" href="@UrlConsts.CreatePost">Tạo bài viết</a></li>
+                                <li><a class="dropdown-item" title="CreatePost" href="@UrlConsts.PostListByUser">Sửa bài viết</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 }
                 else
                 {

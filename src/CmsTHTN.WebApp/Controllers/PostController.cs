@@ -12,11 +12,23 @@ namespace CmsTHTN.WebApp.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [HttpGet]
         [Route("posts")]
         public IActionResult Index()
         {
             return View();
         }
+
+        [Route("posts/older-posts")]
+        public async Task<IActionResult> Index([FromQuery] int page = 1)
+        {
+            var posts = await _unitOfWork.Posts.GetAllPostPaging(page, 5); // Hiển thị tất cả bài viết với phân trang
+            return View(new AllPostViewModel
+            {
+                Posts = posts
+            });
+        }
+
 
         [Route("posts/{categorySlug}")]
         public async Task<IActionResult> ListByCategory([FromRoute] string categorySlug, [FromQuery] int page = 1)
@@ -33,7 +45,7 @@ namespace CmsTHTN.WebApp.Controllers
         [Route("tag/{tagSlug}")]
         public async Task<IActionResult> ListByTag([FromRoute] string tagSlug, [FromQuery] int page = 1)
         {
-            var posts = await _unitOfWork.Posts.GetPostByTagPaging(tagSlug, page, 2);
+            var posts = await _unitOfWork.Posts.GetPostByTagPaging(tagSlug, page, 5);
             var tag = await _unitOfWork.Tags.GetBySlug(tagSlug);
             return View(new PostListByTagViewModel()
             {

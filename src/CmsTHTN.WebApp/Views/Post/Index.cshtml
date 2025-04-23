@@ -1,38 +1,43 @@
-﻿@model PostListByTagViewModel
+﻿@model AllPostViewModel
+
 @{
-    ViewData["Title"] = Model.Tag.Name + (Model.Posts.CurrentPage > 1 ? $" - Trang {Model.Posts.CurrentPage}" : "");
-    ViewData["Description"] = "Bài viết theo tag: " + Model.Tag.Name + (Model.Posts.CurrentPage > 1 ? $" - Trang {Model.Posts.CurrentPage}" : "");
+    ViewData["Title"] = "Tất cả bài viết";
+    ViewData["Description"] = "Danh sách tất cả bài viết.";
 }
-<!-- Page Header-->
+
+<!-- Page Header -->
 <header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
-                    <h1>@Model.Tag.Name</h1>
+                    <h1>Tất cả bài viết</h1>
                 </div>
             </div>
         </div>
     </div>
 </header>
-<!-- Main Content-->
+
+<!-- Main Content -->
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
             @foreach (var item in Model.Posts.Results)
             {
+                <!-- Post preview -->
+                    
                 <div class="row align-items-center mb-4">
-                <!-- Post preview-->        
+                    <!-- Nội dung bài viết -->
                     <div class="col-md-8">
                         <div class="post-preview">
-                            <a href="@string.Format(UrlConsts.PostDetails,item.Slug)" title="@item.Name">
+                            <a href="@string.Format(UrlConsts.PostDetails, item.Slug)" title="@item.Name">
                                 <h2 class="post-title">@item.Name</h2>
                                 <h3 class="post-subtitle">@item.Description</h3>
                             </a>
                             <p class="post-meta">
-                                Posted by
+                                Tác giả
                                 <a href="@string.Format(UrlConsts.Author,item.AuthorUserName)">@item.AuthorName</a>
-                                on @item.DateCreated.ToLongTimeString()
+                                on @item.DateCreated.ToLongDateString()
                             </p>
                         </div>
                     </div>
@@ -41,10 +46,11 @@
                         <img src="https://localhost:7240/@item.Thumbnail" alt="Thumbnail bài viết" style="width: 200px; height: auto;" />
                     </div>
                 </div>
-                <!-- Divider-->
+                <!-- Divider -->
                 <hr class="my-4" />
             }
-            <!-- Pager-->
+
+            <!-- Pager -->
             @(await Component.InvokeAsync("Pager", Model.Posts))
         </div>
     </div>

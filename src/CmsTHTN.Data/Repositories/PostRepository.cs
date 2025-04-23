@@ -209,7 +209,10 @@ namespace CmsTHTN.Data.Repositories
 
         public async Task<PagedResult<PostInListDto>> GetPostByCategoryPaging(string categorySlug, int pageIndex = 1, int pageSize = 10)
         {
-            var query = _context.Posts.AsQueryable();
+            var select = from p in _context.Posts
+                        where p.CategorySlug == categorySlug && p.Status == PostStatus.Published
+                         select p;
+            var query = select.AsQueryable();
 
             if (!string.IsNullOrEmpty(categorySlug))
             {
@@ -270,7 +273,27 @@ namespace CmsTHTN.Data.Repositories
             var query = from p in _context.Posts
                         join pt in _context.PostTags on p.Id equals pt.PostId
                         join t in _context.Tags on pt.TagId equals t.Id
-                        where t.Slug == tagSlug
+                        where t.Slug == tagSlug && p.Status == PostStatus.Published
+                        select p;
+
+            var totalRow = await query.CountAsync();
+
+            query = query.OrderByDescending(x => x.DateCreated)
+               .Skip((pageIndex - 1) * pageSize)
+               .Take(pageSize);
+
+            return new PagedResult<PostInListDto>
+            {
+                Results = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync(),
+                CurrentPage = pageIndex,
+                RowCount = totalRow,
+                PageSize = pageSize
+            };
+        }
+        public async Task<PagedResult<PostInListDto>> GetAllPostPaging(int pageIndex = 1, int pageSize = 10)
+        {
+            var query = from p in _context.Posts
+                        where p.Status == PostStatus.Published
                         select p;
 
             var totalRow = await query.CountAsync();

@@ -21,17 +21,26 @@
         <div class="col-md-10 col-lg-8 col-xl-7">
             @foreach (var item in Model.Posts.Results)
             {
-                <!-- Post preview-->
-                <div class="post-preview">
-                    <a href="@string.Format(UrlConsts.PostDetails,item.Slug)" title="@item.Name">
-                        <h2 class="post-title">@item.Name</h2>
-                        <h3 class="post-subtitle">@item.Description</h3>
-                    </a>
-                    <p class="post-meta">
-                        Posted by
-                        <a href="@string.Format(UrlConsts.Author,item.AuthorUserName)">@item.AuthorName</a>
-                        on @item.DateCreated.ToLongTimeString()
-                    </p>
+                <!-- Post preview-->    
+                <div class="row align-items-center mb-4">
+                    <!-- Nội dung bài viết -->
+                    <div class="col-md-8">
+                        <div class="post-preview">
+                            <a href="@string.Format(UrlConsts.PostDetails,item.Slug)" title="@item.Name">
+                                <h2 class="post-title">@item.Name</h2>
+                                <h3 class="post-subtitle">@item.Description</h3>
+                            </a>
+                            <p class="post-meta">
+                                Posted by
+                                <a href="@string.Format(UrlConsts.Author,item.AuthorUserName)">@item.AuthorName</a>
+                                on @item.DateCreated.ToLongTimeString()
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Ảnh bài viết -->
+                    <div class="col-md-4 text-end">
+                        <img src="https://localhost:7240/@item.Thumbnail" alt="Thumbnail loạt bài" style="width: 200px; height: auto;" />
+                    </div>
                 </div>
                 <!-- Divider-->
                 <hr class="my-4" />
