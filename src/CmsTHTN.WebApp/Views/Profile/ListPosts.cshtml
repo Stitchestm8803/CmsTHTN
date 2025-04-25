@@ -1,0 +1,109 @@
+﻿﻿@{
+    ViewData["Title"] = "Post list";
+    ViewData["Description"] = "Post list";
+
+}
+@model ListPostByUserViewModel
+<style>
+    td, th {
+        text-align: center;
+    }
+</style>
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Danh sách bài viết</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-12 col-lg-12 col-xl-12">
+            <table class="table table-borderless">
+                <tr>
+                    <th>Tổng số</th>
+                    <th>Nháp</th>
+                    <th>Chờ duyệt</th>
+                    <th>Đã đăng</th>
+                    <th>Bị hủy</th>
+                    <th>Chờ thanh toán</th>
+                    <th>Đã nhận</th>
+                </tr>
+                <tr>
+                    <td>@Model.TotalPosts</td>
+                    <td>@Model.TotalDraftPosts</td>
+                    <td>@Model.TotalWaitingApprovalPosts</td>
+                    <td>@Model.TotalPublishedPosts</td>
+                    <td>@Model.TotalRejectedPost</td>
+                    <td>@Model.TotalUnpaidPosts</td>
+                    <td>@Model.TotalPaidAmount</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-12 col-lg-12 col-xl-12">
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th>Tiêu đề</th>
+                        <th>Danh mục</th>
+                        <th>Thời gian tạo</th>
+                        <th>Lượt xem</th>
+                        <th>Trạng thái</th>
+                    </tr>
+
+
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Posts.Results)
+                    {
+                        <tr>
+                            <td>
+                                @if (item.Status.ToString() == "Draft")
+                                {
+                                    <a href="@UrlConsts.EditPost/@item.Id">@item.Name</a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">@item.Name</span>
+                                }
+                            </td>
+                            <td>@item.CategoryName</td>
+                            <td>@item.DateCreated</td>
+                            <td>@item.ViewCount</td>
+                            <td class="d-flex justify-content-evenly">
+                                @if (item.Status.ToString() == "Draft")
+                                {
+                                    <a class="btn btn-primary btn-sm w-100 py-3" href="@UrlConsts.SendApprovalPost/@item.Id">Gửi để duyệt</a>
+                                }
+                                @if (item.Status.ToString() == "WaitingForApproval")
+                                {
+                                    <a class="btn btn-warning btn-sm w-100 py-3 disabled">Đang duyệt</a>
+                                }
+                                @if (item.Status.ToString() == "Published")
+                                {
+                                    <a class="btn btn-success btn-sm w-100 py-3 disabled">Đã xuất bản</a>
+                                }
+                                @if (item.Status.ToString() == "Rejected")
+                                {
+                                    <a class="btn btn-danger btn-sm w-100 py-3 disabled">Bị hủy</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+            @(await Component.InvokeAsync("Pager", Model.Posts))
+        </div>
+    </div>
+</div>

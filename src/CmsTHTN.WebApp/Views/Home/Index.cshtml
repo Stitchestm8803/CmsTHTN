@@ -1,8 +1,55 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Home Page";
+    ViewData["Description"] = "Home Page";
 }
+@inject IOptions<SystemConfig> _config;
+@model HomeViewModel
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-8">
+                <div class="site-heading">
+                    <h1>@_config.Value.AppName</h1>
+                    <span class="subheading">@_config.Value.AppSlogan</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            @foreach (var item in Model.LatestPosts)
+            {
+                <!-- Post preview-->
+                <div class="row align-items-center mb-4">
+                    <!-- Nội dung bài viết -->
+                    <div class="col-md-8">
+                        <div class="post-preview">
+                            <a href="@string.Format(UrlConsts.PostDetails, item.Slug)" title="@item.Name">
+                                <h2 class="post-title">@item.Name</h2>
+                                <h3 class="post-subtitle">@item.Description</h3>
+                            </a>
+                            <p class="post-meta">
+                                Tác giả <a href="@string.Format(UrlConsts.Author, item.AuthorUserName)">@item.AuthorName</a>
+                                vào @item.DateCreated.ToLongTimeString()
+                            </p>
+                        </div>
+                    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+                    <!-- Ảnh bài viết -->
+                    <div class="col-md-4 text-end">
+                        <img src="https://localhost:7240/@item.Thumbnail" alt="Thumbnail bài viết" style="width: 200px; height: auto;"/>
+                    </div>
+                </div>
+
+                <!-- Divider-->
+                <hr class="my-4" />
+            }
+            <!-- Pager-->
+            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="@UrlConsts.Posts/older-posts">Xem thêm →</a></div>
+        </div>
+    </div>
 </div>
