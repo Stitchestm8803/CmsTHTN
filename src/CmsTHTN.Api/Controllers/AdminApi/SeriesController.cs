@@ -5,7 +5,6 @@ using CmsTHTN.Core.SeedWorks.Constants;
 using CmsTHTN.Core.SeedWorks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using CmsTHTN.Core.Models.Content;
 
 namespace CmsTHTN.Api.Controllers.AdminApi
 {

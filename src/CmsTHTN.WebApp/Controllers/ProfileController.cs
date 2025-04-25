@@ -326,25 +326,30 @@ namespace CmsTHTN.WebApp.Controllers
                 TotalWaitingApprovalPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.WaitingForApproval),
                 TotalPublishedPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Published),
                 TotalUnpaidPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Published && x.IsPaid == false),
+                TotalRejectedPost = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Rejected),
                 TotalPaidAmount = await _context.Posts.Where(x => x.AuthorUserId == userId && x.Status == PostStatus.Published && x.IsPaid == true).SumAsync(x => x.RoyaltyAmount)
             });
         }
 
+        [HttpGet]
+        [Route("/profile/posts/send-approve/{id:guid}")]
+        public async Task<IActionResult> SendApprove(Guid id)
+        {
+            var post = await _unitOfWork.Posts.GetByIdAsync(id);
+            return View("SendApprove", post);
+        }
+
         [HttpPost]
-        [Route("/profile/posts/send-approve/{id}")]
-        public async Task<IActionResult> SendApprove(Guid id, [FromQuery] bool approve)
+        [Route("/profile/posts/confirm-approve")]
+        public async Task<IActionResult> ConfirmApprove(Guid id, [FromForm] bool approve)
         {
             var post = await _unitOfWork.Posts.GetByIdAsync(id);
             if (approve)
             {
                 post.Status = PostStatus.WaitingForApproval;
                 await _unitOfWork.CompleteAsync();
-                return Ok(new { message = "Bài viết đang đợi duyệt", post });
             }
-            else
-            {
-                return Redirect("/profile/posts/list");
-            }  
+            return Redirect("/profile/posts/list"); // Quay về danh sách bài viết 
         }
     }
 }

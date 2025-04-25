@@ -1,5 +1,5 @@
 <form class="form-horizontal form-label-left" skipValidation [formGroup]="form" (ngSubmit)="saveChange()">
-  <p-panel #pnlDetail header="Thông tin" [toggleable]="true" [collapsed]="false">
+  <p-panel #pnlDetail header="Thông tin" [toggleable]="false" [collapsed]="false">
     <div class="formgrid grid">
       <div class="field col-12 md:col-6">
         <label for="title" class="block">Tiêu đề <span class="required">*</span></label>
@@ -9,7 +9,7 @@
         </app-validation-message>
       </div>
       <div class="field col-12 md:col-6">
-        <label for="slug">Slug<span class="required">*</span></label>
+        <label style="margin-top: 10px;" for="slug">Slug<span class="required">*</span></label>
         <input id="slug" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="slug"
           [style]="{ width: '100%' }" />
         <app-validation-message [entityForm]="form" fieldName="slug" [validationMessages]="validationMessages">
@@ -17,20 +17,20 @@
       </div>
 
       <div class="field col-12 md:col-6">
-        <label for="categoryId" class="block">Nhóm</label>
+        <label style="margin-top: 10px;" for="categoryId" class="block">Danh mục</label>
         <p-dropdown id="categoryId" [options]="postCategories" formControlName="categoryId" [showClear]="true"
-          placeholder="Chọn nhóm" autoWidth="false" [style]="{ width: '100%' }">
+          placeholder="Chọn danh mục" autoWidth="false" [style]="{ width: '100%' }">
         </p-dropdown>
       </div>
       <div class="field col-12">
-        <label for="description" class="block">Mô tả ngắn <span class="required">*</span></label>
+        <label style="margin-top: 10px;" for="description" class="block">Mô tả ngắn <span class="required">*</span></label>
         <textarea id="description" type="text" rows="4" pInputTextarea formControlName="description"
           [style]="{ width: '100%' }"></textarea>
         <app-validation-message [entityForm]="form" fieldName="description"
           [validationMessages]="validationMessages"></app-validation-message>
       </div>
       <div class="field col-12 md:col-6">
-        <label for="thumbnailFileContent">Hình ảnh <span class="required">*</span></label>
+        <label style="margin: 10px 5px 20px 0;" for="thumbnailFileContent">Hình ảnh <span class="required">*</span></label>
         <input type="hidden" formControlName="thumbnail" />
         <input (change)="onFileChange($event)" type="file" class="w-full" />
       </div>
@@ -40,17 +40,20 @@
       </div>
 
       <div class="field col-12">
-        <label for="content">Nội dung</label>
-        <p-editor formControlName="content" [style]="{ height: '320px' }">
-        </p-editor>
+        <label style="margin-top: 10px;" for="content">Nội dung</label>
+        <editor
+          apiKey="e1x5t2iiu7zadoz0g4awq2jp988me4tdpxzt6ktba28ggrdk"
+          formControlName="content"
+          [init]="tinyMceConfig"
+        ></editor>
       </div>
       <div class="field col-12">
-        <label for="seoDescription">Mô tả SEO</label>
+        <label style="margin-top: 10px;" for="seoDescription">Mô tả SEO</label>
         <textarea id="seoDescription" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial"
           formControlName="seoDescription" [style]="{ width: '100%' }"></textarea>
       </div>
       <div class="field col-12 md:col-12">
-        <label for="tags">Tags</label>
+        <label style="margin-top: 20px; margin-right: 10px;" for="tags">Tags</label>
         <p-autoComplete
         formControlName="tags"
         [suggestions]="filteredTags" 
@@ -60,8 +63,8 @@
       </div>
     </div>
     <ng-template pTemplate="footer">
-      <button type="submit" class="btn btn-primary" [disabled]="!form.valid || btnDisabled">
-        Lưu nháp
+      <button style="width: 100px;" type="submit" class="btn btn-primary" [disabled]="!form.valid || btnDisabled">
+        Lưu
       </button>
     </ng-template>
 

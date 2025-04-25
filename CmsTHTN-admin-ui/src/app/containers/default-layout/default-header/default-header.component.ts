@@ -17,14 +17,20 @@ export class DefaultHeaderComponent extends HeaderComponent {
   public newMessages = new Array(4)
   public newTasks = new Array(5)
   public newNotifications = new Array(5)
-
+  public username: string = '';
+  
   constructor(private classToggler: ClassToggleService,
     private tokenService: TokenStorageService,
     private router: Router
   ) {
     super();
   }
-
+  ngOnInit(): void {
+    const user = this.tokenService.getUser(); // Giả sử getUser() trả về { username: 'Nguyễn' }
+    if (user && user.firstName) {
+      this.username = user.firstName;
+    }
+  }
   logout(){
     this.tokenService.signOut();
     this.router.navigate([UrlConstants.LOGIN]);

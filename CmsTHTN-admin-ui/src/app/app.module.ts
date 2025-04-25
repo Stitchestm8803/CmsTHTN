@@ -3,7 +3,7 @@ import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@a
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { EditorModule } from '@tinymce/tinymce-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
 // Import routing module
@@ -33,7 +33,7 @@ import {
   SharedModule,
   SidebarModule,
   TabsModule,
-  UtilitiesModule
+  UtilitiesModule,
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
@@ -91,6 +91,7 @@ const APP_CONTAINERS = [
     HttpClientModule,
     ConfirmDialogModule,
     DynamicDialogModule,
+    EditorModule,
   ],
   providers: [
     { provide: ADMIN_API_BASE_URL, useValue: environment.API_URL },

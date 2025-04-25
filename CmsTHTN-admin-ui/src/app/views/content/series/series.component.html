@@ -1,26 +1,26 @@
 <p-panel #pnl [style]="{'margin-bottom':'10px'}">
   <p-header>
-    Quản lý series bài viết
+    Quản lý loạt bài viết
   </p-header>
-  <div class="row">
-    <div class="col-6">
-      <button appPermission appPolicy="Permissons.Series.Create" pButton type="button" label="Thêm" icon="fa fa-plus"
-        (click)="showAddModal()" class="p-button-sm ms-1 p-button-info"></button>
-      <button appPermission appPolicy="Permissons.Series.Delete" pButton type="button" label="Xóa" icon="fa fa-trash"
-        class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"></button>
-      <button appPermission appPolicy="Permissons.Series.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
-        class="p-button-sm ms-1 p-button-help" *ngIf="selectedItems.length== 1" (click)="showEditModal()"></button>
-        <button appPermission appPolicy="Permissons.Series.Edit" pButton type="button" label="Bài viết" icon="fa fa-edit"
-        class="p-button-sm ms-1 p-button-info" *ngIf="selectedItems.length== 1" (click)="showPosts()"></button>
+  <div class="row" style="margin-left: 50px;">
+    <div class="col-6" style="display: flex;">
+      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Series.Create" pButton type="button" icon="fa fa-plus"
+        (click)="showAddModal()" class="p-button-sm ms-1 p-button-info"><b>Thêm</b></button>
+      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Series.Delete" pButton type="button" icon="fa fa-trash"
+        class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"><b>Xóa</b></button>
+      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Series.Edit" pButton type="button" icon="fa fa-edit"
+        class="p-button-sm ms-1 p-button-warning" *ngIf="selectedItems.length== 1" (click)="showEditModal()"><b>Sửa</b></button>
+      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Series.Edit" pButton type="button" icon="fa fa-edit"
+        class="p-button-sm ms-1 p-button-success" *ngIf="selectedItems.length== 1" (click)="showPosts()"><b>Gán</b></button>
     </div>
     <div class="col-6">
-      <div class="row">
+      <div class="row" style="float: right; margin-right: 100px;">
         <div class="col">
           <input id="txtKeyword" pInputText (keyup.enter)="loadData()" [(ngModel)]="keyword"
             placeholder="Nhập từ khóa..." type="text">
         </div>
         <div class="col">
-          <button type="button" pButton (click)="loadData()">Tìm</button>
+          <button style="width: 100px; display: flex; justify-content: center;" type="button" pButton (click)="loadData()">Tìm</button>
         </div>
       </div>
 

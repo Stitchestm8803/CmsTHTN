@@ -1,18 +1,18 @@
 <div class="animated fadeIn">
   <p-panel #pnl [style]="{ 'margin-bottom': '10px' }">
     <p-header> Quản lý bài viết </p-header>
-    <div class="row">
-      <div class="col-4">
-        <button appPermission appPolicy="Permissons.Posts.Add" pButton type="button" label="Thêm" icon="fa fa-plus"
-          (click)="showAddModal()" class="p-button-sm p-button-success ms-1"></button>
-        <button appPermission appPolicy="Permissons.Posts.Delete" pButton type="button" label="Xóa" icon="fa fa-trash"
-          class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"></button>
-        <button appPermission appPolicy="Permissons.Posts.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
+    <div class="row" style="display: flex; margin-left: 50px;">
+      <div class="col-4" style="display: flex;">
+        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Posts.Add" pButton type="button" icon="fa fa-plus"
+          (click)="showAddModal()" class="p-button-sm p-button-info ms-1"><b>Thêm</b></button>
+        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Posts.Delete" pButton type="button" icon="fa fa-trash"
+          class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"><b>Xóa</b></button>
+        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Posts.Edit" pButton type="button" icon="fa fa-edit"
           class="p-button-sm p-button-warning ms-1" *ngIf="selectedItems.length == 1"
-          (click)="showEditModal()"></button>
+          (click)="showEditModal()"><b>Sửa</b></button>
       </div>
       <div class="col-8">
-        <div class="row">
+        <div class="row" style="float: right; margin-right: 100px;">
           <div class="col">
             <input id="txtKeyword" pInputText (keyup.enter)="loadData()" [(ngModel)]="keyword"
               placeholder="Nhập từ khóa..." type="text" />
@@ -23,7 +23,7 @@
             </p-dropdown>
           </div>
           <div class="col">
-            <button type="button" pButton (click)="loadData()">Tìm</button>
+            <button style="width: 100px; display: flex; justify-content: center;" type="button" pButton (click)="loadData()">Tìm</button>
           </div>
         </div>
       </div>
@@ -38,10 +38,10 @@
             </th>
             <th>Tiêu đề</th>
             <th>Danh mục</th>
-            <th>Lượt xem</th>
-            <th>Ngày tạo</th>
-            <th>Nhuận bút</th>
-            <th style="width: 150px">Xuất bản</th>
+            <th style="text-align: center;">Lượt xem</th>
+            <th style="text-align: center;">Thời gian tạo</th>
+            <th style="text-align: center;">Nhuận bút</th>
+            <th style="width: 150px; text-align: center;">Xuất bản</th>
             <th></th>
           </tr>
         </ng-template>
@@ -53,13 +53,13 @@
             </td>
             <td>{{ row.name }}</td>
             <td>{{ row.categoryName }}</td>
-            <td>{{ row.viewCount | number }}</td>
-            <td>{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
-            <td>
+            <td style="text-align: center;">{{ row.viewCount | number }}</td>
+            <td style="text-align: center;">{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
+            <td style="text-align: center;">
               <p-badge *ngIf="row.isPaid == 0" value="Chưa TT" severity="danger"></p-badge>
               <p-badge *ngIf="row.isPaid == 1" value="Đã TT" severity="success"></p-badge>
             </td>
-            <td style="width: 150px">
+            <td style="width: 150px; text-align: center;">
               <p-badge *ngIf="row.status == 0" value="Nháp" severity="info"></p-badge>
               <p-badge *ngIf="row.status == 1" value="Đợi duyệt" severity="warning"></p-badge>
               <p-badge *ngIf="row.status == 2" value="Từ chối" severity="danger"></p-badge>
@@ -77,7 +77,7 @@
               <button *ngIf="row.status != 3" pButton pRipple type="button" icon="pi pi-backward" pTooltip="Trả lại" tooltipPosition="top"
                 (click)="reject(row.id)" appPermission appPolicy="Permissons.Posts.Approve"
                 class="p-button-rounded p-button-text p-button-danger"></button>
-              <button pButton pRipple type="button" icon="pi pi-history" pTooltip="Xem lịch sử" tooltipPosition="top"
+                <button pButton pRipple type="button" icon="pi pi-history" pTooltip="Lịch sử" tooltipPosition="top"
                 (click)="showLogs(row.id)" appPermission appPolicy="Permissons.Posts.View"
                 class="p-button-rounded p-button-text p-button-info"></button>
             </td>

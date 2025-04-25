@@ -2,18 +2,6 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
-    name: 'Trang chủ',
-    url: '/dashboard',
-    iconComponent: { name: 'cil-speedometer' },
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
-    attributes: {
-      "policyName": "Permissions.Dashboard.View"
-    }
-  },
-  {
     name: 'Nội dung',
     url: '/content',
     iconComponent: { name: 'cil-puzzle' },

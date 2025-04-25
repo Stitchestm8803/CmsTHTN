@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, OnDestroy, Renderer2} from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
@@ -29,9 +29,10 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   selectedEntity = {} as PostDto;
   public thumbnailImage;
 
-  tags: any[] | undefined;
-  filteredTags: any[] | undefined;
+  tags: string[] | undefined;
+  filteredTags: string[] | undefined;
   postTags: string[];
+  editorContent: string = '';
 
   formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
 
@@ -42,7 +43,8 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private postApiClient: AdminApiPostApiClient,
     private postCategoryApiClient: AdminApiPostCategoryApiClient,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private renderer: Renderer2
   ) { }
   ngOnDestroy(): void {
     if (this.ref) {
@@ -68,7 +70,16 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     description: [{ type: 'required', message: 'Bạn phải nhập mô tả ngắn' }],
   };
 
+  decodeHtml(html: string) {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
   ngOnInit() {
+    this.renderer.listen('document', 'click', (event) => {
+      console.log(event);
+  });    
     //Init form
     this.buildForm();
     //Load data to form
@@ -108,6 +119,14 @@ export class PostDetailComponent implements OnInit, OnDestroy {
         },
       });
   }
+  tinyMceConfig = {
+    height: 500,
+    menubar: false,
+    plugins: 'link image media table lists wordcount',
+    toolbar: 'undo redo | bold italic underline | link image media | numlist bullist',
+    object_resizing: false, // Tắt resize cho hình ảnh & bảng
+    resize: false, // Ngăn kéo dãn vùng nhập liệu
+  };
   loadFormDetails(id: string) {
     this.postApiClient
       .getPostById(id)
@@ -115,7 +134,23 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: PostDto) => {
           this.selectedEntity = response;
+
+          // Kiểm tra nếu content chứa HTML
+          let content = response.content ? this.decodeHtml(response.content) : '<p>Chưa có nội dung</p>';
+
+          // Gọi buildForm() trước khi binding dữ liệu
           this.buildForm();
+
+          // Binding dữ liệu content vào form
+          this.form.patchValue({ content });
+
+          // Cập nhật giá trị để đảm bảo p-editor nhận HTML đúng
+          this.form.get('content')?.updateValueAndValidity();
+
+          // Đảm bảo trình soạn thảo nhận giá trị HTML sau khi binding
+          setTimeout(() => {
+            this.form.patchValue({ content });
+          }, 100);
           this.toggleBlockUI(false);
         },
         error: () => {
