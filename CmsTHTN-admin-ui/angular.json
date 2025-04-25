@@ -110,7 +110,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**",
+                "input": "node_modules/tinymce",
+                "output": "assets/tinymce"
+              }            
             ],
             "styles": [
               "src/scss/styles.scss"

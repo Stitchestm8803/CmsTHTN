@@ -51,6 +51,7 @@ import { UtilityService } from './shared/services/utility.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { UploadService } from './shared/services/upload.service';
 import { BroadcastService } from './shared/services/broadcast.service';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -91,6 +92,7 @@ const APP_CONTAINERS = [
     HttpClientModule,
     ConfirmDialogModule,
     DynamicDialogModule,
+    EditorModule
   ],
   providers: [
     { provide: ADMIN_API_BASE_URL, useValue: environment.API_URL },

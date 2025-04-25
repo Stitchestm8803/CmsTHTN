@@ -13,6 +13,7 @@ namespace CmsTHTN.WebApp.Models
         public int TotalUnpaidPosts { get; set; }
         public double TotalUnpaidAmount { get; set; }
         public double TotalPaidAmount { get; set; }
+        public int TotalRejectedPost {  get; set; }
         public PagedResult<PostInListDto> Posts { get; set; }
     }
 }

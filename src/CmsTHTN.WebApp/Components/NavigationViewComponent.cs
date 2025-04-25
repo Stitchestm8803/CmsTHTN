@@ -18,6 +18,7 @@ namespace CmsTHTN.WebApp.Components
             {
                 Slug = x.Slug,
                 Name = x.Name,
+                IsAvtive = x.IsActive,
                 Children = model.Where(x => x.ParentId == x.Id).Select(i => new NavigationItemViewModel()
                 {
                     Name = x.Name,

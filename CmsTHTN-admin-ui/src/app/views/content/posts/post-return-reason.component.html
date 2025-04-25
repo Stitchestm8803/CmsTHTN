@@ -1,5 +1,5 @@
 <form class="form-horizontal form-label-left" skipValidation [formGroup]="form" (ngSubmit)="saveChange()">
-    <p-panel #pnlDetail header="Lý do trả lại bài" [toggleable]="true" [collapsed]="false">
+    <p-panel #pnlDetail header="Lý do trả lại bài" [toggleable]="false" [collapsed]="false">
         <div class="formgrid grid">
 
             <div class="field col-12">
@@ -12,8 +12,8 @@
 
         </div>
         <ng-template pTemplate="footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!form.valid || btnDisabled">
-                Gửi lại
+            <button style="width: 100px;" type="submit" class="btn btn-primary" [disabled]="!form.valid || btnDisabled">
+                Gửi
             </button>
         </ng-template>
 

@@ -23,7 +23,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ImageModule } from 'primeng/image';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { EditorModule } from 'primeng/editor';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PostComponent } from './posts/post.component';
 import { PostDetailComponent } from './posts/post-detail.component';
@@ -33,6 +32,7 @@ import { PostActivityLogsComponent } from './posts/post-activity-logs.component'
 import { SeriesComponent } from './series/series.component';
 import { SeriesDetailComponent } from './series/series-detail.component';
 import { SeriesPostsComponent } from './series/series-posts.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
   imports: [

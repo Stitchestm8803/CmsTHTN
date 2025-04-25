@@ -4671,6 +4671,7 @@ export class SeriesInListDto implements ISeriesInListDto {
     slug?: string | undefined;
     isActive?: boolean;
     sortOrder?: number;
+    thumbnail?: string | undefined;
     seoKeywords?: string | undefined;
     ownerUserId?: string;
 
@@ -4691,6 +4692,7 @@ export class SeriesInListDto implements ISeriesInListDto {
             this.slug = _data["slug"];
             this.isActive = _data["isActive"];
             this.sortOrder = _data["sortOrder"];
+            this.thumbnail = _data["thumbnail"];
             this.seoKeywords = _data["seoKeywords"];
             this.ownerUserId = _data["ownerUserId"];
         }
@@ -4711,6 +4713,7 @@ export class SeriesInListDto implements ISeriesInListDto {
         data["slug"] = this.slug;
         data["isActive"] = this.isActive;
         data["sortOrder"] = this.sortOrder;
+        data["thumbnail"] = this.thumbnail;
         data["seoKeywords"] = this.seoKeywords;
         data["ownerUserId"] = this.ownerUserId;
         return data;
@@ -4724,6 +4727,7 @@ export interface ISeriesInListDto {
     slug?: string | undefined;
     isActive?: boolean;
     sortOrder?: number;
+    thumbnail?: string | undefined;
     seoKeywords?: string | undefined;
     ownerUserId?: string;
 }
