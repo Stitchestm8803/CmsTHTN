@@ -15,6 +15,8 @@ namespace CmsTHTN.WebApp.Controllers
         public async Task<IActionResult> Index([FromQuery] int page = 1)
         {
             var series = await _unitOfWork.Series.GetAllPaging(string.Empty, page);
+            
+            series.Results = series.Results.OrderBy(s => s.SortOrder).ToList();
             return View(series);
         }
 

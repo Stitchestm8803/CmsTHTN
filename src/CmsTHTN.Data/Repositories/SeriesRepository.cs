@@ -2,11 +2,9 @@
 using CmsTHTN.Core.Domain.Content;
 using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.Models;
-using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.Repository;
 using CmsTHTN.Data.SeedWorks;
 using Microsoft.EntityFrameworkCore;
-using static CmsTHTN.Core.SeedWorks.Constants.Permissions;
 
 namespace CmsTHTN.Data.Repositories
 {
@@ -43,6 +41,7 @@ namespace CmsTHTN.Data.Repositories
             var totalRow = await query.CountAsync();
 
             query = query.OrderByDescending(x => x.DateCreated)
+               .ThenBy(x => x.SortOrder)
                .Skip((pageIndex - 1) * pageSize)
                .Take(pageSize);
 
@@ -61,10 +60,28 @@ namespace CmsTHTN.Data.Repositories
                         join p in _context.Posts
                         on pis.PostId equals p.Id
                         where pis.SeriesId == seriesId
-                        select p;
-            return await _mapper.ProjectTo<PostInListDto>(query).ToListAsync();
-        }
+                        select new PostInListDto
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Slug = p.Slug,
+                            Description = p.Description,
+                            Thumbnail = p.Thumbnail,
+                            ViewCount = p.ViewCount,
+                            DisplayOrder = pis.DisplayOrder,
+                            DateCreated = p.DateCreated,
+                            CategorySlug = p.CategorySlug,
+                            CategoryName = p.CategoryName,
+                            AuthorUserName = p.AuthorUserName,
+                            AuthorName = p.AuthorName,
+                            Status = p.Status,
+                            IsPaid = p.IsPaid,
+                            RoyaltyAmount = p.RoyaltyAmount,
+                            PaidDate = p.PaidDate
+                        };
 
+            return await query.ToListAsync();
+        }
         public async Task<PagedResult<PostInListDto>> GetAllPostsInSeries(string slug, int pageIndex = 1, int pageSize = 10)
         {
             var query = from pis in _context.PostInSeries

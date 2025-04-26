@@ -23,7 +23,10 @@
                     <ul class="dropdown-menu">
                         @foreach (var item in Model)
                         {
-                            <li><a class="dropdown-item" title="@item.Name" href="@string.Format(UrlConsts.PostsByCategorySlug,item.Slug)">@item.Name</a></li>
+                            @if (item.IsActive)
+                            {
+                                <li><a class="dropdown-item" title="@item.Name" href="@string.Format(UrlConsts.PostsByCategorySlug,item.Slug)">@item.Name</a></li>
+                            }
                         }
                     </ul>
                 </li>

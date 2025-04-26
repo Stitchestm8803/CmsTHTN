@@ -161,6 +161,7 @@ export class SeriesDetailComponent implements OnInit, OnDestroy {
       description: new FormControl(this.selectedEntity.description || null, Validators.required),
       seoDescription: new FormControl(this.selectedEntity.seoDescription || null),
       content: new FormControl(this.selectedEntity.content || null),
+      sortOrder: new FormControl(this.selectedEntity.sortOrder || 0, Validators.required),
       isActive: new FormControl(this.selectedEntity.isActive || null),
       thumbnail: new FormControl(
         this.selectedEntity.thumbnail || null

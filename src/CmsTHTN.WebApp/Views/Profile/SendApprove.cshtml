@@ -18,19 +18,22 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            <form asp-action="SendApprove" asp-controller="Profile" method="post" enctype="multipart/form-data">
+            <div class="alert alert-warning font-weight-bold text-center" role="alert">
+                ⚠️ <strong>Thao tác này sẽ khiến bạn không thể chỉnh sửa bài viết nữa!</strong>
+            </div>
+            <form asp-action="ConfirmApprove" asp-controller="Profile" method="post">
                 <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
                 @if (TempData[SystemConsts.FormSuccessMsg] != null)
                 {
-                    <div class="alert alert-success">@TempData[SystemConsts.FormSuccessMsg]</div>
+                    <div class="alert alert-success text-center">@TempData[SystemConsts.FormSuccessMsg]</div>
                 }
-                <form method="post" action="/approve=true">
-                    <button class="btn btn-primary me-3" type="submit">Xác nhận</button>
-                </form>
-                <form method="post" action="/approve=false">
-                    <button class="btn btn-primary me-3" type="submit">Hủy</button>
-                </form>
+                <input type="hidden" name="id" value="@Model.Id" />
+                <input type="hidden" name="approve" id="approve-value" />
 
+                <div class="d-flex justify-content-evenly mt-4">
+                    <button class="btn btn-warning btn-lg text-white py-3" type="submit" onclick="document.getElementById('approve-value').value='true'" style="width: 200px">Xác nhận</button>
+                    <button class="btn btn-primary btn-lg text-white py-3" type="submit" onclick="document.getElementById('approve-value').value='false'" style="width: 200px">Hủy</button>
+                </div>
             </form>
         </div>
     </div>

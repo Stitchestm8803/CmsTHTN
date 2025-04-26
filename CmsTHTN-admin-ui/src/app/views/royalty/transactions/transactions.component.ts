@@ -62,6 +62,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: TransactionDtoPagedResult) => {
           this.items = response.results;
+          this.totalCount = response.rowCount;
           this.toggleBlockUI(false);
         },
         error: () => {

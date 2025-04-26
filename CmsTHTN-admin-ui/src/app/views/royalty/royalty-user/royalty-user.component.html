@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
     <p-panel #pnl [style]="{'margin-bottom':'10px'}">
       <p-header>
-        Nhuận bút theo tác giả
+        Nhuận bút theo tài khoản
       </p-header>
       <div class="row">
         <div class="col">
@@ -45,12 +45,12 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th>
               <th>Tài khoản</th>
-              <th>Bài nháp</th>
-              <th>Bài chờ duyệt</th>
-              <th>Bài bị trả</th>
-              <th>Tổng bài đăng</th>
-              <th>Đã trả</th>
-              <th>Chưa trả</th>
+              <th style="text-align: center;">Bài nháp</th>
+              <th style="text-align: center;">Bài chờ duyệt</th>
+              <th style="text-align: center;">Bài bị trả</th>
+              <th style="text-align: center;">Tổng bài đăng</th>
+              <th style="text-align: center;">Đã trả</th>
+              <th style="text-align: center;">Chưa trả</th>
               <th></th>
             </tr>
           </ng-template>
@@ -60,12 +60,12 @@
                 <p-tableCheckbox [value]="row"></p-tableCheckbox>
               </td>
               <td>{{row.userName}}</td>
-              <td>{{row.numberOfDraftPosts | number}}</td>
-              <td>{{row.numberOfWaitingApprovalPosts | number}}</td>
-              <td>{{row.numberOfRejectedPosts | number}}</td>
-              <td>{{row.numberOfPublishPosts | number}}</td>
-              <td>{{row.numberOfPaidPublishPosts | number}}</td>
-              <td>{{row.numberOfUnpaidPublishPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfDraftPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfWaitingApprovalPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfRejectedPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfPublishPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfPaidPublishPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfUnpaidPublishPosts | number}}</td>
               <td>
                 <button *ngIf="row.numberOfUnpaidPublishPosts > 0" pButton pRipple type="button" icon="pi pi-forward"
                   pTooltip="Gửi tiền" tooltipPosition="top" (click)="payForUser(row.userId)" appPermission

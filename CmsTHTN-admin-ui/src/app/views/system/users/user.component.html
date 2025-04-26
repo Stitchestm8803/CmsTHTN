@@ -1,24 +1,24 @@
 <div class="animated fadeIn">
   <p-panel #pnl [style]="{ 'margin-bottom': '10px' }">
     <p-header> Quản lý người dùng </p-header>
-    <div class="row">
-      <div class="col">
-        <button appPermission appPolicy="Permissons.Users.Create" pButton type="button" label="Thêm" icon="fa fa-plus"
-          (click)="showAddModal()" class="p-button-sm p-button-success ms-1"></button>
-        <button appPermission appPolicy="Permissons.Users.Delete" pButton type="button" label="Xóa" icon="fa fa-trash"
-          *ngIf="selectedItems.length > 0" (click)="deleteItems()" class="p-button-sm p-button-danger ms-1"></button>
-        <button appPermission appPolicy="Permissons.Users.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
+    <div class="row" style="display: flex; margin-left: 50px;">
+      <div class="col" style="display: flex;">
+        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Users.Create" pButton type="button" icon="fa fa-plus"
+          (click)="showAddModal()" class="p-button-sm p-button-info ms-1"><b>Thêm</b></button>
+        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Users.Delete" pButton type="button" icon="fa fa-trash"
+          *ngIf="selectedItems.length > 0" (click)="deleteItems()" class="p-button-sm p-button-danger ms-1"><b>Xóa</b></button>
+        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Users.Edit" pButton type="button" icon="fa fa-edit"
           *ngIf="selectedItems.length == 1" (click)="showEditModal()"
-          class="p-button-sm p-button-warning ms-1"></button>
+          class="p-button-sm p-button-warning ms-1"><b>Sửa</b></button>
       </div>
       <div class="col">
-        <div class="row">
+        <div class="row" style="float: right; margin-right: 100px;">
           <div class="col">
             <input id="txtKeyword" pInputText (keyup.enter)="loadData()" [(ngModel)]="keyword"
               placeholder="Nhập từ khóa..." type="text" />
           </div>
           <div class="col">
-            <button type="button" pButton (click)="loadData()">Tìm</button>
+            <button style="width: 100px; display: flex; justify-content: center;" type="button" pButton (click)="loadData()">Tìm</button>
           </div>
         </div>
       </div>
@@ -34,10 +34,10 @@
             <th>Tên</th>
             <th>Tài khoản</th>
             <th>Email</th>
-            <th>Số ĐT</th>
-            <th>Ngày tham gia</th>
-            <th>Số dư</th>
-            <th style="width: 150px">Trạng thái</th>
+            <th style="text-align: center;">Số ĐT</th>
+            <th style="text-align: center;">Ngày tham gia</th>
+            <th style="text-align: center;">Số dư</th>
+            <th style="text-align: center;">Trạng thái</th>
             <th></th>
           </tr>
         </ng-template>
@@ -50,10 +50,10 @@
             <td>{{ row.firstName }}</td>
             <td>{{ row.userName }}</td>
             <td>{{ row.email }}</td>
-            <td>{{ row.phoneNumber }}</td>
-            <td>{{ row.dateCreated | date: 'dd-MM-yyyy hh:mm' }}</td>
-            <td>{{ row.balance | number}}</td>
-            <td style="width: 150px">
+            <td style="text-align: center;">{{ row.phoneNumber }}</td>
+            <td style="text-align: center;">{{ row.dateCreated | date: 'dd-MM-yyyy hh:mm' }}</td>
+            <td style="text-align: center;">{{ row.balance | number}}</td>
+            <td style="text-align: center;">
               <p-badge *ngIf="row.isActive == 1" value="Kích hoạt" severity="success"></p-badge>
               <p-badge *ngIf="row.isActive == 0" value="Khoá" severity="danger"></p-badge>
             </td>

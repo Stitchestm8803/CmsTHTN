@@ -18,7 +18,8 @@ namespace CmsTHTN.Core.Domain.Content
         public required string Name { get; set; }
 
         [MaxLength(250)]
-        public string? Decription { get; set; }
+        [Column("Decription")]
+        public string? Description { get; set; }
 
         [Column(TypeName = "varchar(250)")]
         public required string Slug { get; set; }
@@ -27,7 +28,8 @@ namespace CmsTHTN.Core.Domain.Content
         public int SortOrder { get; set; }
 
         [MaxLength(250)]
-        public string? SeoDecription { get; set; }
+        [Column("SeoDecription")]
+        public string? SeoDescription { get; set; }
 
         [MaxLength(250)]
         public string? Thumbnail { get; set; }

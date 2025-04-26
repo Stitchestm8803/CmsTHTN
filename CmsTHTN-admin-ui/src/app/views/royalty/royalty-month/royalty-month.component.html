@@ -45,12 +45,12 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th>
               <th>Tháng</th>
-              <th>Bài nháp</th>
-              <th>Bài chờ duyệt</th>
-              <th>Bài bị trả</th>
-              <th>Tổng bài đăng</th>
-              <th>Đã trả</th>
-              <th>Chưa trả</th>
+              <th style="text-align: center;">Bài nháp</th>
+              <th style="text-align: center;">Bài chờ duyệt</th>
+              <th style="text-align: center;">Bài bị trả</th>
+              <th style="text-align: center;">Tổng bài đăng</th>
+              <th style="text-align: center;">Đã trả</th>
+              <th style="text-align: center;">Chưa trả</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-row>
@@ -59,12 +59,12 @@
                 <p-tableCheckbox [value]="row"></p-tableCheckbox>
               </td>
               <td>{{row.month}}/{{row.year}}</td>
-              <td>{{row.numberOfDraftPosts | number}}</td>
-              <td>{{row.numberOfWaitingApprovalPosts | number}}</td>
-              <td>{{row.numberOfRejectedPosts | number}}</td>
-              <td>{{row.numberOfPublishPosts | number}}</td>
-              <td>{{row.numberOfPaidPublishPosts | number}}</td>
-              <td>{{row.numberOfUnpaidPublishPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfDraftPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfWaitingApprovalPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfRejectedPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfPublishPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfPaidPublishPosts | number}}</td>
+              <td style="text-align: center;">{{row.numberOfUnpaidPublishPosts | number}}</td>
             </tr>
           </ng-template>
         </p-table>

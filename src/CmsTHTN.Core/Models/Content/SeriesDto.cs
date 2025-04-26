@@ -21,5 +21,6 @@ namespace CmsTHTN.Core.Models.Content
                 CreateMap<Series, SeriesDto>();
             }
         }
+
     }
 }

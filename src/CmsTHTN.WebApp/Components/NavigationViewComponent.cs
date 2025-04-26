@@ -18,12 +18,15 @@ namespace CmsTHTN.WebApp.Components
             {
                 Slug = x.Slug,
                 Name = x.Name,
+                IsActive = x.IsActive,
+                SortOrder = x.SortOrder,
                 Children = model.Where(x => x.ParentId == x.Id).Select(i => new NavigationItemViewModel()
                 {
                     Name = x.Name,
-                    Slug = x.Slug
-                }).ToList()
-            }).ToList();
+                    Slug = x.Slug,
+                    SortOrder = i.SortOrder,
+                }).OrderBy(c => c.SortOrder).ToList()
+            }).OrderBy(n => n.SortOrder).ToList();
             return View(navItems);
         }
     }

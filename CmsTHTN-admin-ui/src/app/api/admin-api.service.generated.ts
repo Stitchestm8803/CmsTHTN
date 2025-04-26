@@ -3976,6 +3976,7 @@ export class PostDto implements IPostDto {
     description?: string | undefined;
     thumbnail?: string | undefined;
     viewCount?: number;
+    displayOrder?: number;
     dateCreated?: Date;
     categorySlug?: string | undefined;
     categoryName?: string | undefined;
@@ -4010,6 +4011,7 @@ export class PostDto implements IPostDto {
             this.description = _data["description"];
             this.thumbnail = _data["thumbnail"];
             this.viewCount = _data["viewCount"];
+            this.displayOrder = _data["displayOrder"];
             this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
             this.categorySlug = _data["categorySlug"];
             this.categoryName = _data["categoryName"];
@@ -4044,6 +4046,7 @@ export class PostDto implements IPostDto {
         data["description"] = this.description;
         data["thumbnail"] = this.thumbnail;
         data["viewCount"] = this.viewCount;
+        data["displayOrder"] = this.displayOrder;
         data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
         data["categorySlug"] = this.categorySlug;
         data["categoryName"] = this.categoryName;
@@ -4071,6 +4074,7 @@ export interface IPostDto {
     description?: string | undefined;
     thumbnail?: string | undefined;
     viewCount?: number;
+    displayOrder?: number;
     dateCreated?: Date;
     categorySlug?: string | undefined;
     categoryName?: string | undefined;
@@ -4096,6 +4100,7 @@ export class PostInListDto implements IPostInListDto {
     description?: string | undefined;
     thumbnail?: string | undefined;
     viewCount?: number;
+    displayOrder?: number;
     dateCreated?: Date;
     categorySlug?: string | undefined;
     categoryName?: string | undefined;
@@ -4123,6 +4128,7 @@ export class PostInListDto implements IPostInListDto {
             this.description = _data["description"];
             this.thumbnail = _data["thumbnail"];
             this.viewCount = _data["viewCount"];
+            this.displayOrder = _data["displayOrder"];
             this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
             this.categorySlug = _data["categorySlug"];
             this.categoryName = _data["categoryName"];
@@ -4150,6 +4156,7 @@ export class PostInListDto implements IPostInListDto {
         data["description"] = this.description;
         data["thumbnail"] = this.thumbnail;
         data["viewCount"] = this.viewCount;
+        data["displayOrder"] = this.displayOrder;
         data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
         data["categorySlug"] = this.categorySlug;
         data["categoryName"] = this.categoryName;
@@ -4170,6 +4177,7 @@ export interface IPostInListDto {
     description?: string | undefined;
     thumbnail?: string | undefined;
     viewCount?: number;
+    displayOrder?: number;
     dateCreated?: Date;
     categorySlug?: string | undefined;
     categoryName?: string | undefined;
@@ -4671,6 +4679,7 @@ export class SeriesInListDto implements ISeriesInListDto {
     slug?: string | undefined;
     isActive?: boolean;
     sortOrder?: number;
+    thumbnail?: string | undefined;
     seoKeywords?: string | undefined;
     ownerUserId?: string;
 
@@ -4691,6 +4700,7 @@ export class SeriesInListDto implements ISeriesInListDto {
             this.slug = _data["slug"];
             this.isActive = _data["isActive"];
             this.sortOrder = _data["sortOrder"];
+            this.thumbnail = _data["thumbnail"];
             this.seoKeywords = _data["seoKeywords"];
             this.ownerUserId = _data["ownerUserId"];
         }
@@ -4711,6 +4721,7 @@ export class SeriesInListDto implements ISeriesInListDto {
         data["slug"] = this.slug;
         data["isActive"] = this.isActive;
         data["sortOrder"] = this.sortOrder;
+        data["thumbnail"] = this.thumbnail;
         data["seoKeywords"] = this.seoKeywords;
         data["ownerUserId"] = this.ownerUserId;
         return data;
@@ -4724,6 +4735,7 @@ export interface ISeriesInListDto {
     slug?: string | undefined;
     isActive?: boolean;
     sortOrder?: number;
+    thumbnail?: string | undefined;
     seoKeywords?: string | undefined;
     ownerUserId?: string;
 }

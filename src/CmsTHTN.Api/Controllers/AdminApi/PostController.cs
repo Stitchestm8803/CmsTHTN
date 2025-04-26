@@ -6,9 +6,11 @@ using CmsTHTN.Core.Helpers;
 using CmsTHTN.Core.Models;
 using CmsTHTN.Core.Models.Content;
 using CmsTHTN.Core.SeedWorks;
+using CmsTHTN.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static CmsTHTN.Core.SeedWorks.Constants.Permissions;
 
 namespace CmsTHTN.Api.Controllers.AdminApi
@@ -19,11 +21,13 @@ namespace CmsTHTN.Api.Controllers.AdminApi
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-        public PostController(IUnitOfWork unitOfWork, IMapper mapper, UserManager<AppUser> userManager)
+        private readonly CmsTHTNContext _context;
+        public PostController(IUnitOfWork unitOfWork, IMapper mapper, UserManager<AppUser> userManager, CmsTHTNContext context)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _userManager = userManager;
+            _context = context;
         }
 
         [HttpPost]
@@ -147,6 +151,7 @@ namespace CmsTHTN.Api.Controllers.AdminApi
             {
                 return NotFound();
             }
+
             return Ok(post);
         }
 

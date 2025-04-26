@@ -23,7 +23,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ImageModule } from 'primeng/image';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { EditorModule } from 'primeng/editor';
+import { EditorModule } from '@tinymce/tinymce-angular';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PostComponent } from './posts/post.component';
 import { PostDetailComponent } from './posts/post-detail.component';

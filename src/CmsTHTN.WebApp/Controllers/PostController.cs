@@ -58,6 +58,9 @@ namespace CmsTHTN.WebApp.Controllers
         public async Task<IActionResult> Details([FromRoute] string slug)
         {
             var post = await _unitOfWork.Posts.GetBySlug(slug);
+            post.ViewCount += 1;
+            await _unitOfWork.Posts.UpdateAsync(post);
+
             var category = await _unitOfWork.PostCategories.GetBySlug(post.CategorySlug);
             var tags = await _unitOfWork.Posts.GetTagObjectsByPostId(post.Id);
             return View(new PostDetailViewModel()

@@ -202,7 +202,7 @@ namespace CmsTHTN.Data.Repositories
         {
             var query = _context.Posts.Where(x => x.Status == PostStatus.Published)
                 .Take(top)
-                .OrderByDescending(x => x.DateCreated);
+                .OrderByDescending(x => x.ViewCount);
 
             return await _mapper.ProjectTo<PostInListDto>(query).ToListAsync();
         }
@@ -233,6 +233,14 @@ namespace CmsTHTN.Data.Repositories
                 PageSize = pageSize
             };
 
+        }
+        public async Task UpdateAsync(PostDto postDto)
+        {
+            var post = await _context.Posts.FindAsync(postDto.Id);
+            post.ViewCount = postDto.ViewCount;
+
+            _context.Posts.Update(post);  
+            await _context.SaveChangesAsync();
         }
 
         public async Task<PostDto> GetBySlug(string slug)

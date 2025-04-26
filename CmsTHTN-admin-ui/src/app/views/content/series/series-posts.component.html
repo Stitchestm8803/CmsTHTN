@@ -1,13 +1,13 @@
-<p-panel #pnlDetail header="Thông tin" [toggleable]="true" [collapsed]="false">
+<p-panel #pnlDetail header="Thông tin" [toggleable]="false" [collapsed]="false">
   <div class="row">
     <p-table #dt [value]="posts" selectionMode="multiple" dataKey="id" [metaKeySelection]="true">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 10px">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            <p-tableHeaderCheckbox style="display: none;"></p-tableHeaderCheckbox>
           </th>
           <th>Tiêu đề</th>
-          <th>Thứ tự</th>
+          <th style="text-align: center;">Thứ tự</th>
           <th></th>
         </tr>
       </ng-template>
@@ -18,7 +18,7 @@
             <p-tableCheckbox [value]="row"></p-tableCheckbox>
           </td>
           <td>{{ row.name }}</td>
-          <td>{{ row.sortOrder }}</td>
+          <td style="text-align: center;">{{ row.displayOrder }}</td>
           <td>
             <button pButton pRipple type="button" icon="pi pi-trash" pTooltip="Xóa" tooltipPosition="top"
               (click)="removePost(row.id)" class="p-button-rounded p-button-text p-button-danger"></button>

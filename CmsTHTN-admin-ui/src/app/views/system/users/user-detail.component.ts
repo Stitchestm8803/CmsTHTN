@@ -121,6 +121,12 @@ export class UserDetailComponent implements OnInit, OnDestroy {
           avatarFileName: file.name,
           avatarFileContent: reader.result,
         });
+        console.log("Ảnh được chọn:", {
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type,
+          fileContent: reader.result, // ✅ Kiểm tra nội dung ảnh
+      });
 
         // need to run CD since file load runs outside of zone
         this.cd.markForCheck();
@@ -129,12 +135,13 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
   saveChange() {
     this.toggleBlockUI(true);
-
+    console.log("Dữ liệu form khi gửi lên API:", this.form.value);
     this.saveData();
   }
 
   private saveData() {
     this.toggleBlockUI(true);
+    console.log("Dữ liệu gửi lên API:", this.form.value);
     console.log(this.form.value);
     if (this.utilService.isEmpty(this.config.data?.id)) {
       this.userService

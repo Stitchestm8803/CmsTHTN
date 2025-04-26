@@ -1,23 +1,23 @@
 <p-panel #pnl [style]="{ 'margin-bottom': '10px' }">
   <p-header> Quản lý quyền </p-header>
-  <div class="row">
-    <div class="col">
-      <button appPermission appPolicy="Permissons.Roles.Create" pButton type="button" label="Thêm" icon="fa fa-plus"
-        (click)="showAddModal()" class="p-button-sm p-button-success ms-1"></button>
-      <button appPermission appPolicy="Permissons.Roles.Delete" pButton type="button" label="Xóa" icon="fa fa-trash"
-        *ngIf="selectedItems.length > 0" (click)="deleteItems()" class="p-button-sm p-button-danger ms-1"></button>
-      <button appPermission appPolicy="Permissons.Roles.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
+  <div class="row" style="display: flex; margin-left: 50px;">
+    <div class="col" style="display: flex;">
+      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Roles.Create" pButton type="button" icon="fa fa-plus"
+        (click)="showAddModal()" class="p-button-sm p-button-info ms-1"><b>Thêm</b></button>
+      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Roles.Delete" pButton type="button" icon="fa fa-trash"
+        *ngIf="selectedItems.length > 0" (click)="deleteItems()" class="p-button-sm p-button-danger ms-1"><b>Xóa</b></button>
+      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Roles.Edit" pButton type="button" icon="fa fa-edit"
         *ngIf="selectedItems.length == 1" (click)="showEditModal()"
-        class="p-button-sm p-button-warning ms-1"></button>
+        class="p-button-sm p-button-warning ms-1"><b>Sửa</b></button>
     </div>
     <div class="col">
-      <div class="row">
+      <div class="row" style="float: right; margin-right: 100px;">
         <div class="col">
           <input id="txtKeyword" pInputText (keyup.enter)="loadData()" [(ngModel)]="keyword"
             placeholder="Nhập tên..." type="text" />
         </div>
         <div class="col">
-          <button type="button" pButton (click)="loadData()">Tìm</button>
+          <button style="width: 100px; display: flex; justify-content: center;" type="button" pButton (click)="loadData()">Tìm</button>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
           <td>{{ row.name }}</td>
           <td>{{ row.displayName }}</td>
           <td>
-            <button pButton class="p-button-sm" (click)="showPermissionModal(row.id, row.name)">Phân quyền</button>
+            <button pButton class="p-button-success" (click)="showPermissionModal(row.id, row.name)">Phân quyền</button>
           </td>
         </tr>
       </ng-template>

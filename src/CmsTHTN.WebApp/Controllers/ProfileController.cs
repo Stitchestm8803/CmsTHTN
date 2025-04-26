@@ -9,7 +9,6 @@ using CmsTHTN.WebApp.Models;
 using CmsTHTN.WebApp.Extensions;
 using CmsTHTN.Core.Domain.Content;
 using CmsTHTN.Core.Helpers;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using System.Net;
 using System.Text.Json;
 using CmsTHTN.Core.ConfigOptions;
@@ -17,8 +16,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CmsTHTN.Data;
 using Microsoft.EntityFrameworkCore;
-using static CmsTHTN.Core.SeedWorks.Constants.Permissions;
-using Microsoft.Extensions.Hosting;
 
 namespace CmsTHTN.WebApp.Controllers
 {
@@ -325,26 +322,31 @@ namespace CmsTHTN.WebApp.Controllers
                 TotalDraftPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Draft),
                 TotalWaitingApprovalPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.WaitingForApproval),
                 TotalPublishedPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Published),
+                TotalRejectedPost = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Rejected),
                 TotalUnpaidPosts = await _context.Posts.CountAsync(x => x.AuthorUserId == userId && x.Status == PostStatus.Published && x.IsPaid == false),
                 TotalPaidAmount = await _context.Posts.Where(x => x.AuthorUserId == userId && x.Status == PostStatus.Published && x.IsPaid == true).SumAsync(x => x.RoyaltyAmount)
             });
         }
 
+        [HttpGet]
+        [Route("/profile/posts/send-approve/{id:guid}")]
+        public async Task<IActionResult> SendApprove(Guid id)
+        {
+            var post = await _unitOfWork.Posts.GetByIdAsync(id);
+            return View("SendApprove", post);
+        }
+
         [HttpPost]
-        [Route("/profile/posts/send-approve/{id}")]
-        public async Task<IActionResult> SendApprove(Guid id, [FromQuery] bool approve)
+        [Route("/profile/posts/confirm-approve")]
+        public async Task<IActionResult> ConfirmApprove(Guid id, [FromForm] bool approve)
         {
             var post = await _unitOfWork.Posts.GetByIdAsync(id);
             if (approve)
             {
                 post.Status = PostStatus.WaitingForApproval;
                 await _unitOfWork.CompleteAsync();
-                return Ok(new { message = "Bài viết đang đợi duyệt", post });
             }
-            else
-            {
-                return Redirect("/profile/posts/list");
-            }  
+            return Redirect("/profile/posts/list");
         }
     }
 }

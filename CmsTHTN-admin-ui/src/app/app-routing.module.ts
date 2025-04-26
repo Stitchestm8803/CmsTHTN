@@ -16,11 +16,6 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'dashboard',
-        loadChildren: () =>
-          import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
-      },
-      {
         path: 'system',
         loadChildren: () =>
           import('./views/system/system.module').then((m) => m.SystemModule)
@@ -38,7 +33,7 @@ const routes: Routes = [
     ]
   },
   
-  {path: '**', redirectTo: 'dashboard'}
+  {path: '**', redirectTo: '#'}
 ];
 
 @NgModule({

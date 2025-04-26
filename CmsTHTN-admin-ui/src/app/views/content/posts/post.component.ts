@@ -161,10 +161,11 @@ export class PostComponent implements OnInit, OnDestroy {
       }
     });
   }
-  addToSeries(id: string) {
+  addToSeries(id: string, sortOrder: number) {
     const ref = this.dialogService.open(PostSeriesComponent, {
       data: {
-        id: id
+        id: id,
+        sortOrder: sortOrder
       },
       header: 'Thêm vào loạt bài',
       width: '70%'

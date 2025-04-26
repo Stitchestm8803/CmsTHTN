@@ -45,9 +45,9 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th>
               <th>User</th>
-              <th>Số tiền</th>
-              <th>Ngày GD</th>
-              <th>Loại GD</th>
+              <th style="text-align: center;">Số tiền</th>
+              <th style="text-align: center;">Thời gian GD</th>
+              <th style="text-align: center;">Loại GD</th>
               <th>Ghi chú</th>
             </tr>
           </ng-template>
@@ -57,9 +57,9 @@
                 <p-tableCheckbox [value]="row"></p-tableCheckbox>
               </td>
               <td>{{row.toUserName}}</td>
-              <td>{{row.amount | number}}</td>
-              <td>{{row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
-              <td>
+              <td style="text-align: center;">{{row.amount | number}}</td>
+              <td style="text-align: center;">{{row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
+              <td style="text-align: center;">
                 <p-badge *ngIf="row.transactionType == 0" value="Trả nhuận bút" severity="info"></p-badge>
               </td>
               <td>{{row.note}}</td>
