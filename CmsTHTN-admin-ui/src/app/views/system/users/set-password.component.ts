@@ -90,11 +90,11 @@ export class SetPasswordComponent implements OnInit, OnDestroy {
             ),
           ])
         ),
-        confirmNewPassword: new FormControl(null),
+        confirmNewPassword: new FormControl(null, Validators.required),
       },
-      passwordMatchingValidatior
+      { validators: passwordMatchingValidator }
     );
-  }
+  }  
 
   private toggleBlockUI(enabled: boolean) {
     if (enabled == true) {
@@ -108,11 +108,15 @@ export class SetPasswordComponent implements OnInit, OnDestroy {
     }
   }
 }
-export const passwordMatchingValidatior: ValidatorFn = (
+export const passwordMatchingValidator: ValidatorFn = (
   control: AbstractControl
 ): ValidationErrors | null => {
   const password = control.get('newPassword');
   const confirmPassword = control.get('confirmNewPassword');
 
-  return password?.value === confirmPassword?.value ? null : { notmatched: true };
+  if (password && confirmPassword && password.value !== confirmPassword.value) {
+    confirmPassword.setErrors({ notmatched: true });
+    return { notmatched: true };
+  } 
+  return null;
 };

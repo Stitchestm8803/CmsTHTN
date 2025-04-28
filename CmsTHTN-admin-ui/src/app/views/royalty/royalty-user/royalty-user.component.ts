@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AdminApiRoyaltyApiClient, RoyaltyReportByUserDto } from '../../../api/admin-api.service.generated';
 import { AlertService } from '../../../shared/services/alert.service';
 import { MessageConstants } from '../../../shared/constants/messages.constants';
+import { TokenStorageService } from '../../../shared/services/token-storage.service';
 
 @Component({
   selector: 'app-royalty-user',
@@ -26,6 +27,7 @@ export class RoyaltyUserComponent implements OnInit, OnDestroy {
     private RoyaltyApiClient: AdminApiRoyaltyApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
+    private tokenService: TokenStorageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnDestroy(): void {
@@ -35,6 +37,11 @@ export class RoyaltyUserComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadData();
+  }
+
+  hasPermission(permission: string): boolean {
+    const user = this.tokenService.getUser();
+    return user?.permissions.includes(permission) || false;
   }
 
   loadData() {

@@ -7,6 +7,7 @@ import { SeriesDetailComponent } from './series-detail.component';
 import { AdminApiSeriesApiClient, PostInListDtoPagedResult, SeriesDto, SeriesInListDto } from '../../../api/admin-api.service.generated';
 import { AlertService } from '../../../shared/services/alert.service';
 import { SeriesPostsComponent } from '../../../views/content/series/series-posts.component';
+import { TokenStorageService } from '../../../shared/services/token-storage.service';
 
 @Component({
   selector: 'app-series',
@@ -32,6 +33,7 @@ export class SeriesComponent implements OnInit, OnDestroy {
     private seriesApiClient: AdminApiSeriesApiClient,
     public dialogService: DialogService,
     private notificationService: AlertService,
+    private tokenService: TokenStorageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnDestroy(): void {
@@ -41,6 +43,11 @@ export class SeriesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadData();
+  }
+
+  hasPermission(permission: string): boolean {
+    const user = this.tokenService.getUser();
+    return user?.permissions.includes(permission) || false;
   }
 
   loadData(selectionId = null) {

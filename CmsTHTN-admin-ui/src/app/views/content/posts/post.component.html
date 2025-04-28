@@ -3,13 +3,12 @@
     <p-header> Quản lý bài viết </p-header>
     <div class="row" style="display: flex; margin-left: 50px;">
       <div class="col-4" style="display: flex;">
-        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Posts.Add" pButton type="button" icon="fa fa-plus"
-          (click)="showAddModal()" class="p-button-sm p-button-info ms-1"><b>Thêm</b></button>
-        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Posts.Delete" pButton type="button" icon="fa fa-trash"
-          class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"><b>Xóa</b></button>
-        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Posts.Edit" pButton type="button" icon="fa fa-edit"
-          class="p-button-sm p-button-warning ms-1" *ngIf="selectedItems.length == 1"
-          (click)="showEditModal()"><b>Sửa</b></button>
+        <button *ngIf="hasPermission('Permissions.Posts.Create')" style="width: 100px; display: flex; justify-content: center;"
+         pButton type="button" icon="fa fa-plus" (click)="showAddModal()" class="p-button-sm p-button-info ms-1"><b>Thêm</b></button>
+        <button *ngIf="selectedItems.length > 0 && hasPermission('Permissions.Posts.Delete')" style="width: 100px; display: flex; justify-content: center;" 
+          pButton type="button" icon="fa fa-trash" class="p-button-sm p-button-danger ms-1" (click)="deleteItems()"><b>Xóa</b></button>
+        <button *ngIf="selectedItems.length > 0 && hasPermission('Permissions.Posts.Edit')" style="width: 100px; display: flex; justify-content: center;" 
+          pButton type="button" icon="fa fa-edit" class="p-button-sm p-button-warning ms-1" (click)="showEditModal()"><b>Sửa</b></button>
       </div>
       <div class="col-8">
         <div class="row" style="float: right; margin-right: 100px;">
@@ -66,20 +65,16 @@
               <p-badge *ngIf="row.status == 3" value="Đã đăng" severity="success"></p-badge>
             </td>
             <td>
-              <button pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
+              <button *ngIf="row.status != 2 && row.status != 3 && hasPermission('Permissions.Posts.Approve')" pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
                 (click)="addToSeries(row.id, row.sortOrder)" class="p-button-rounded p-button-text"></button>
-              <button *ngIf="row.status != 3" pButton appPermission appPolicy="Permissons.Posts.Approve" pRipple type="button"
-                icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top" (click)="approve(row.id)"
-                class="p-button-rounded p-button-text p-button-success"></button>
-              <button *ngIf="row.status != 3 && row.status != 1" pButton pRipple type="button" icon="pi pi-forward" pTooltip="Gửi duyệt" tooltipPosition="top"
-                (click)="sendToApprove(row.id)" appPermission appPolicy="Permissons.Posts.Edit"
-                class="p-button-rounded p-button-text p-button-danger"></button>
-              <button *ngIf="row.status != 3" pButton pRipple type="button" icon="pi pi-backward" pTooltip="Trả lại" tooltipPosition="top"
-                (click)="reject(row.id)" appPermission appPolicy="Permissons.Posts.Approve"
-                class="p-button-rounded p-button-text p-button-danger"></button>
-              <button pButton pRipple type="button" icon="pi pi-history" pTooltip="Lịch sử" tooltipPosition="top"
-                (click)="showLogs(row.id)" appPermission appPolicy="Permissons.Posts.View"
-                class="p-button-rounded p-button-text p-button-info"></button>
+              <button *ngIf="row.status == 1 && hasPermission('Permissions.Posts.Approve')" pButton pRipple type="button" icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top" 
+                (click)="approve(row.id)" class="p-button-rounded p-button-text p-button-success"></button>
+              <button *ngIf="row.status == 0 && hasPermission('Permissions.Posts.Approve')" pButton pRipple type="button" icon="pi pi-forward" pTooltip="Gửi duyệt" tooltipPosition="top"
+                (click)="sendToApprove(row.id)" class="p-button-rounded p-button-text p-button-danger"></button>
+              <button *ngIf="row.status == 1 && hasPermission('Permissions.Posts.Approve')" pButton pRipple type="button" icon="pi pi-backward" pTooltip="Trả lại" tooltipPosition="top"
+                (click)="reject(row.id)" class="p-button-rounded p-button-text p-button-danger"></button>
+              <button *ngIf="hasPermission('Permissions.Posts.View')" pButton pRipple type="button" icon="pi pi-history" pTooltip="Lịch sử" tooltipPosition="top"
+                (click)="showLogs(row.id)" class="p-button-rounded p-button-text p-button-info"></button>
             </td>
           </tr>
         </ng-template>

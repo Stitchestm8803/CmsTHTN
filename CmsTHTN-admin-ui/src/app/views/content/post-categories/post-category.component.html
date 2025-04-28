@@ -5,12 +5,12 @@
       </p-header>
       <div class="row">
         <div class="col" style="display: flex; margin-left: 50px;">
-          <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.PostCategories.Create" pButton type="button" icon="fa fa-plus"
-            (click)="showAddModal()" class="p-button-sm p-button-info ms-1"><b>Thêm</b></button>
-          <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.PostCategories.Delete" pButton type="button" icon="fa fa-trash"
-            class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"><b>Xóa</b></button>
-          <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.PostCategories.Edit" pButton type="button" icon="fa fa-edit"
-            class="p-button-sm p-button-warning ms-1" *ngIf="selectedItems.length== 1" (click)="showEditModal()"><b>Sửa</b></button>
+          <button *ngIf="hasPermission('Permissions.PostCategories.Create')" style="width: 100px; display: flex; justify-content: center;" 
+            pButton type="button" icon="fa fa-plus" (click)="showAddModal()" class="p-button-sm p-button-info ms-1"><b>Thêm</b></button>
+          <button *ngIf="selectedItems.length > 0 && hasPermission('Permissions.UsPostCategoriesers.Delete')" style="width: 100px; display: flex; justify-content: center;" 
+            pButton type="button" icon="fa fa-trash" class="p-button-sm p-button-danger ms-1" (click)="deleteItems()"><b>Xóa</b></button>
+          <button *ngIf="selectedItems.length > 0 && hasPermission('Permissions.PostCategories.Edit')" style="width: 100px; display: flex; justify-content: center;" 
+            pButton type="button" icon="fa fa-edit" class="p-button-sm p-button-warning ms-1" (click)="showEditModal()"><b>Sửa</b></button>
         </div>
         <div class="col">
           <div class="row" style="float: right; margin-right: 100px;">

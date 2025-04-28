@@ -19,6 +19,8 @@ namespace CmsTHTN.Core.SeedWorks.Constants
             public const string Edit = "Permissions.Roles.Edit";
             [Description("Xóa quyền")]
             public const string Delete = "Permissions.Roles.Delete";
+            [Description("Cài đặt quyền")]
+            public const string Setting = "Permissions.Roles.Setting";
         }
         public static class Users
         {
@@ -30,6 +32,12 @@ namespace CmsTHTN.Core.SeedWorks.Constants
             public const string Edit = "Permissions.Users.Edit";
             [Description("Xóa người dùng")]
             public const string Delete = "Permissions.Users.Delete";
+            [Description("Sửa mật khẩu người dùng")]
+            public const string ChangePassword = "Permissions.Users.ChangePassword";
+            [Description("Sửa Email người dùng")]
+            public const string ChangeEmail = "Permissions.Users.ChangeEmail";
+            [Description("Sửa quyền người dùng")]
+            public const string ChangePermission = "Permissions.Users.ChangePermission";
         }
         public static class PostCategories
         {
@@ -52,7 +60,7 @@ namespace CmsTHTN.Core.SeedWorks.Constants
             public const string Edit = "Permissions.Posts.Edit";
             [Description("Xóa bài viết")]
             public const string Delete = "Permissions.Posts.Delete";
-            [Description("Duyệt bài viết")]
+            [Description("Quản lý trạng thái bài viết")]
             public const string Approve = "Permissions.Posts.Approve";
         }
 
@@ -66,6 +74,8 @@ namespace CmsTHTN.Core.SeedWorks.Constants
             public const string Edit = "Permissions.Series.Edit";
             [Description("Xóa loạt bài")]
             public const string Delete = "Permissions.Series.Delete";
+            [Description("Gán loạt bài")]
+            public const string Attach = "Permissions.Series.Attach";
         }
 
         public static class Royalty

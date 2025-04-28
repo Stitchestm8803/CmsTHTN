@@ -11,6 +11,7 @@ import { ConfirmationService } from 'primeng/api';
 import { RolesDetailComponent } from './role-detail.component';
 import { MessageConstants } from '../../../shared/constants/messages.constants';
 import { PermissionGrantComponent } from '../roles/permission-grant.component'
+import { TokenStorageService } from '../../../shared/services/token-storage.service';
 
 @Component({
   selector: 'app-role',
@@ -35,7 +36,8 @@ export class RoleComponent implements OnInit, OnDestroy {
     private roleService: AdminApiRoleApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private tokenService: TokenStorageService
   ) {}
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -44,6 +46,11 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadData();
+  }
+
+  hasPermission(permission: string): boolean {
+    const user = this.tokenService.getUser();
+    return user?.permissions.includes(permission) || false;
   }
 
   loadData() {

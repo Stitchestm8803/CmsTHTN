@@ -6,6 +6,7 @@ import { MessageConstants } from '../../../shared/constants/messages.constants';
 import { PostCategoryDetailComponent } from './post-category-detail.component';
 import { AdminApiPostCategoryApiClient, PostCategoryDto, PostCategoryDtoPagedResult } from '../../../api/admin-api.service.generated';
 import { AlertService } from '../../../shared/services/alert.service';
+import { TokenStorageService } from '../../../shared/services/token-storage.service';
 
 @Component({
   selector: 'app-post-category',
@@ -33,6 +34,7 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
     private postCategoryService: AdminApiPostCategoryApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
+    private tokenService: TokenStorageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnDestroy(): void {
@@ -44,6 +46,11 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
+  hasPermission(permission: string): boolean {
+    const user = this.tokenService.getUser();
+    return user?.permissions.includes(permission) || false;
+  }
+  
   loadData() {
     this.toggleBlockUI(true);
 

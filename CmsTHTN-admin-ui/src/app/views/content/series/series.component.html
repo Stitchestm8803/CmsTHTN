@@ -4,14 +4,14 @@
   </p-header>
   <div class="row" style="margin-left: 50px;">
     <div class="col-6" style="display: flex;">
-      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Series.Create" pButton type="button" icon="fa fa-plus"
-        (click)="showAddModal()" class="p-button-sm ms-1 p-button-info"><b>Thêm</b></button>
-      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Series.Delete" pButton type="button" icon="fa fa-trash"
-        class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"><b>Xóa</b></button>
-      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Series.Edit" pButton type="button" icon="fa fa-edit"
-        class="p-button-sm ms-1 p-button-warning" *ngIf="selectedItems.length== 1" (click)="showEditModal()"><b>Sửa</b></button>
-      <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Series.Edit" pButton type="button" icon="fa fa-edit"
-        class="p-button-sm ms-1 p-button-success" *ngIf="selectedItems.length== 1" (click)="showPosts()"><b>Gán</b></button>
+      <button *ngIf="hasPermission('Permissions.Series.Create')" style="width: 100px; display: flex; justify-content: center;"
+       pButton type="button" icon="fa fa-plus" (click)="showAddModal()" class="p-button-sm ms-1 p-button-info"><b>Thêm</b></button>
+      <button *ngIf="selectedItems.length > 0 && hasPermission('Permissions.Series.Delete')" style="width: 100px; display: flex; justify-content: center;" 
+        pButton type="button" icon="fa fa-trash" class="p-button-sm p-button-danger ms-1" (click)="deleteItems()"><b>Xóa</b></button>
+      <button *ngIf="selectedItems.length > 0 && hasPermission('Permissions.Series.Edit')" style="width: 100px; display: flex; justify-content: center;"
+        pButton type="button" icon="fa fa-edit" class="p-button-sm ms-1 p-button-warning" (click)="showEditModal()"><b>Sửa</b></button>
+      <button *ngIf="selectedItems.length > 0 && hasPermission('Permissions.Series.Attach')" style="width: 100px; display: flex; justify-content: center;" 
+        pButton type="button" icon="fa fa-edit" class="p-button-sm ms-1 p-button-success" (click)="showPosts()"><b>Gán</b></button>
     </div>
     <div class="col-6">
       <div class="row" style="float: right; margin-right: 100px;">

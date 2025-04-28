@@ -9,6 +9,7 @@ import { AdminApiPostApiClient, AdminApiPostCategoryApiClient, PostCategoryDto, 
 import { PostSeriesComponent } from '../../../views/content/posts/post-series.component';
 import { PostReturnReasonComponent } from '../../../views/content/posts/post-return-reason.component';
 import { PostActivityLogsComponent } from '../../../views/content/posts/post-activity-logs.component';
+import { TokenStorageService } from '../../../shared/services/token-storage.service';
 
 @Component({
   selector: 'app-post',
@@ -40,6 +41,7 @@ export class PostComponent implements OnInit, OnDestroy {
     private postApiClient: AdminApiPostApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
+    private tokenService: TokenStorageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnDestroy(): void {
@@ -52,6 +54,11 @@ export class PostComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
+  hasPermission(permission: string): boolean {
+    const user = this.tokenService.getUser();
+    return user?.permissions.includes(permission) || false;
+  }
+  
   loadData(selectionId = null) {
     this.toggleBlockUI(true);
     this.postApiClient.getPostsPaging(this.keyword, this.categoryId, this.pageIndex, this.pageSize)

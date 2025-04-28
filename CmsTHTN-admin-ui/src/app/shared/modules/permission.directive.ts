@@ -1,27 +1,26 @@
-import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { TokenStorageService } from './../services/token-storage.service';
+
 @Directive({
-    selector: '[appPermission]'
+  selector: '[appPermission]'
 })
 export class PermissionDirective implements OnInit {
-    @Input() appPolicy: string;
+  @Input() appPolicy: string;
 
-    constructor(private el: ElementRef, private tokenService: TokenStorageService) {
+  constructor(private el: ElementRef, private renderer: Renderer2, private tokenService: TokenStorageService) {
+  }
 
-    }
-    ngOnInit() {
-        var loggedInUser = this.tokenService.getUser();
-        if (loggedInUser) {
-            var listPermission = loggedInUser.permissions;
-            if (listPermission != null && listPermission != ''
-                && listPermission.filter(x => x == this.appPolicy).length > 0) {
-                this.el.nativeElement.style.display = "";
-            } else {
-                this.el.nativeElement.style.display = "none";
-            }
-        }
-        else {
-            this.el.nativeElement.style.display = "none";
+  ngOnInit() {
+    const loggedInUser = this.tokenService.getUser();
+
+    if (!loggedInUser || !loggedInUser.permissions.includes(this.appPolicy)) {
+        // **Ẩn ngay từ đầu**
+        this.el.nativeElement.style.display = "none";
+
+        // **Xóa hẳn khỏi DOM, kiểm tra nếu `parentNode` tồn tại**
+            if (this.el.nativeElement.parentNode) {
+            this.renderer.removeChild(this.el.nativeElement.parentNode, this.el.nativeElement);
+             }
         }
     }
 }

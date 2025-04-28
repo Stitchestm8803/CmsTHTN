@@ -28,7 +28,7 @@ namespace CmsTHTN.WebApp.Controllers
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(post => post.Name.Contains(keyword) || post.Tags.Contains(keyword) || post.CategoryName.Contains(keyword));
+                query = query.Where(post => post.Name.Contains(keyword) || post.Tags.Contains(keyword) || post.CategoryName.Contains(keyword) || post.AuthorName == keyword);
             }
 
             query = query.OrderByDescending(post => post.ViewCount);

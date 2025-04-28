@@ -9,6 +9,7 @@ import { UserDetailComponent } from './user-detail.component';
 import { AdminApiUserApiClient, UserDto, UserDtoPagedResult } from '../../../api/admin-api.service.generated';
 import { AlertService } from '../../../shared/services/alert.service';
 import { MessageConstants } from '../../../shared/constants/messages.constants';
+import { TokenStorageService } from '../../../shared/services/token-storage.service';
 
 @Component({
     selector: 'app-user',
@@ -33,7 +34,8 @@ export class UserComponent implements OnInit, OnDestroy {
         private userService: AdminApiUserApiClient,
         public dialogService: DialogService,
         private alertService: AlertService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private tokenService: TokenStorageService
     ) {}
 
     ngOnDestroy(): void {
@@ -44,7 +46,12 @@ export class UserComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.loadData();
     }
-
+    
+    hasPermission(permission: string): boolean {
+        const user = this.tokenService.getUser();
+        return user?.permissions.includes(permission) || false;
+    }
+    
     loadData(selectionId = null) {
         this.toggleBlockUI(true);
         this.userService

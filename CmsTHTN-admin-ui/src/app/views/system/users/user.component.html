@@ -3,13 +3,12 @@
     <p-header> Quản lý người dùng </p-header>
     <div class="row" style="display: flex; margin-left: 50px;">
       <div class="col" style="display: flex;">
-        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Users.Create" pButton type="button" icon="fa fa-plus"
-          (click)="showAddModal()" class="p-button-sm p-button-info ms-1"><b>Thêm</b></button>
-        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Users.Delete" pButton type="button" icon="fa fa-trash"
-          *ngIf="selectedItems.length > 0" (click)="deleteItems()" class="p-button-sm p-button-danger ms-1"><b>Xóa</b></button>
-        <button style="width: 100px; display: flex; justify-content: center;" appPermission appPolicy="Permissons.Users.Edit" pButton type="button" icon="fa fa-edit"
-          *ngIf="selectedItems.length == 1" (click)="showEditModal()"
-          class="p-button-sm p-button-warning ms-1"><b>Sửa</b></button>
+        <button *ngIf="hasPermission('Permissions.Users.Create')" style="width: 100px; display: flex; justify-content: center;" 
+        pButton type="button" icon="fa fa-plus" (click)="showAddModal()" class="p-button-sm p-button-info ms-1"><b>Thêm</b></button>
+        <button *ngIf="selectedItems.length > 0 && hasPermission('Permissions.Users.Delete')" style="width: 100px; display: flex; justify-content: center;"
+          pButton type="button" icon="fa fa-trash" (click)="deleteItems()" class="p-button-sm p-button-danger ms-1"><b>Xóa</b></button>
+        <button *ngIf="selectedItems.length == 1 && hasPermission('Permissions.Users.Edit')" style="width: 100px; display: flex; justify-content: center;" 
+        pButton type="button" icon="fa fa-edit" (click)="showEditModal()" class="p-button-sm p-button-warning ms-1"><b>Sửa</b></button>
       </div>
       <div class="col">
         <div class="row" style="float: right; margin-right: 100px;">
@@ -58,12 +57,11 @@
               <p-badge *ngIf="row.isActive == 0" value="Khoá" severity="danger"></p-badge>
             </td>
             <td>
-              <button pButton pRipple type="button" icon="pi pi-key" pTooltip="Đặt mật khẩu" tooltipPosition="top"
+              <button *ngIf="hasPermission('Permissions.Users.ChangePassword')" pButton pRipple type="button" icon="pi pi-key" pTooltip="Đặt mật khẩu" tooltipPosition="top"
                 class="p-button-rounded p-button-text" (click)="setPassword(row.id)"></button>
-              <button pButton pRipple type="button" icon="pi pi-envelope" pTooltip="Đặt Email" tooltipPosition="top"
+              <button *ngIf="hasPermission('Permissions.Users.ChangeEmail')" pButton pRipple type="button" icon="pi pi-envelope" pTooltip="Đặt Email" tooltipPosition="top"
                 (click)="changeEmail(row.id)" class="p-button-rounded p-button-text"></button>
-
-              <button pButton pRipple type="button" icon="pi pi-users" pTooltip="Gán vai trò" tooltipPosition="top"
+              <button *ngIf="hasPermission('Permissions.Users.ChangePermission')" pButton pRipple type="button" icon="pi pi-users" pTooltip="Gán vai trò" tooltipPosition="top"
                 (click)="assignRole(row.id)" class="p-button-rounded p-button-text"></button>
             </td>
           </tr>
