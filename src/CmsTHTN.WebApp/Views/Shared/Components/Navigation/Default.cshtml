@@ -18,7 +18,7 @@
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Series">Loạt bài</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle px-lg-3 py-3 py-lg-4" href="@UrlConsts.Posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Tin tức
+                        Danh mục
                     </a>
                     <ul class="dropdown-menu">
                         @foreach (var item in Model)
@@ -56,8 +56,8 @@
                 }
                 else
                 {
-                    <a class="btn" href="@UrlConsts.Login">Đăng nhập</a>
-                    <a class="btn" href="@UrlConsts.Register">Đăng ký</a>
+                    <a class="btn" style="color: white;" href="@UrlConsts.Login">Đăng nhập</a>
+                    <a class="btn" style="color: white;" href="@UrlConsts.Register">Đăng ký</a>
                 }
             </span>
         </div>

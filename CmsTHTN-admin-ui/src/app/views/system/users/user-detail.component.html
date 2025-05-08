@@ -9,6 +9,14 @@
                     [validationMessages]="validationMessages">
                 </app-validation-message>
             </div>
+            <div *ngIf="mode === 'create'" class="field col-12 md:col-6">
+                <label for="password">Mật khẩu <span class="required">*</span></label>
+                <input id="password" type="password" pInputText [pKeyFilter]="noSpecial" formControlName="password"
+                    [style]="{ width: '100%' }" autocomplete="current-password" />
+                <app-validation-message [entityForm]="form" fieldName="password"
+                    [validationMessages]="validationMessages">
+                </app-validation-message>
+            </div>            
             <div style="display: none;" class="field col-12 md:col-6">
                 <label for="password">Mật khẩu <span class="required">*</span></label>
                 <input id="password" type="password" pInputText [pKeyFilter]="noSpecial" formControlName="password" 

@@ -4,11 +4,15 @@
     ViewData["Description"] = Model.Series.SeoDescription + (Model.Posts.CurrentPage > 1 ? $" - Trang {Model.Posts.CurrentPage}" : "");
 }
 <!-- Page Header-->
-<header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
-    <div class="container position-relative px-4 px-lg-5">
+<header class="masthead" style="position: relative; background-image: url('https://localhost:7240/@Model.Series.Thumbnail'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                filter: blur(5px); z-index: 0;"></div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                background-color: rgba(0, 0, 0, 0.7); z-index: 1;"></div>
+    <div class="container position-relative px-4 px-lg-5" style="position: relative; z-index: 2; color: white;">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="site-heading">
+                <div class="post-heading" style="text-align: center;">
                     <h1>@Model.Series.Name</h1>
                 </div>
             </div>
@@ -19,7 +23,7 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            @foreach (var item in Model.Posts.Results)
+            @foreach (var item in Model.Posts.Results.Where(post => post.Status == CmsTHTN.Core.Domain.Content.PostStatus.Published))
             {
                 <!-- Post preview-->      
                 <div class="row align-items-center mb-4">
@@ -33,13 +37,16 @@
                             <p class="post-meta">
                                 Đăng bởi
                                 <a href="@string.Format(UrlConsts.Author,item.AuthorUserName)">@item.AuthorName</a>
-                                vào @item.DateCreated.ToLongTimeString()
+                                vào @item.DateCreated.ToString("hh:mmtt - dd/MM/yyyy")
+                            </p>
+                            <p class="post-meta" style="float: right;">
+                                Lượt xem: <strong>@item.ViewCount</strong>
                             </p>
                         </div>
                     </div>
                     <!-- Ảnh bài viết -->
                     <div class="col-md-4 text-end">
-                        <img src="https://localhost:7240/@item.Thumbnail" alt="Thumbnail bài viết" style="width: 200px; height: auto;" />
+                        <img src="https://localhost:7240/@item.Thumbnail" alt="Thumbnail bài viết" style="width: 100%; height: auto;" />
                     </div>
                 </div>
                 <!-- Divider-->

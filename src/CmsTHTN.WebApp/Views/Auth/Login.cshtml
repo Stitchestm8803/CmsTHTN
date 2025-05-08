@@ -4,7 +4,7 @@
 }
 @model LoginViewModel
 <!-- Page Header-->
-<header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
+<header class="masthead" style="background-image: url('/assets/img/home-background.jpg')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -18,7 +18,7 @@
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="col-md-10 col-lg-8 col-xl-6">
             <form asp-action="Login" asp-controller="Auth" method="post" class="row g-12">
                 <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
                 @if (TempData[SystemConsts.FormSuccessMsg] != null)
@@ -42,7 +42,7 @@
 
                 </div>
                 <div class="col-12 mt-3">
-                    <a href="@UrlConsts.ForgotPassword">Quên mật khẩu?</a>
+                    <a style="font-size: 15px;" href="@UrlConsts.ForgotPassword">Quên mật khẩu?</a>
                 </div>
                 <div class="col-12 mt-3">
                     <button class="btn btn-primary" type="submit">Đăng nhập</button>

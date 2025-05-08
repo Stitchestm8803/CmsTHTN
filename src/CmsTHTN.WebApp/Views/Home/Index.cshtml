@@ -5,7 +5,7 @@
 @inject IOptions<SystemConfig> _config;
 @model HomeViewModel
 <!-- Page Header-->
-<header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
+<header class="masthead" style="background-image: url('/assets/img/home-background.jpg')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-8">
@@ -33,15 +33,18 @@
                                 <h3 class="post-subtitle">@item.Description</h3>
                             </a>
                             <p class="post-meta">
-                                Tác giả <a href="@string.Format(UrlConsts.Author, item.AuthorUserName)">@item.AuthorName</a>
-                                vào @item.DateCreated.ToLongTimeString()
+                                Đăng bởi <a href="@string.Format(UrlConsts.Author, item.AuthorUserName)">@item.AuthorName</a>
+                                vào @item.DateCreated.ToString("hh:mmtt - dd/MM/yyyy")
+                            </p>
+                            <p class="post-meta" style="float: right;">
+                                Lượt xem: <strong>@item.ViewCount</strong>
                             </p>
                         </div>
                     </div>
 
                     <!-- Ảnh bài viết -->
                     <div class="col-md-4 text-end">
-                        <img src="https://localhost:7240/@item.Thumbnail" alt="Thumbnail bài viết" style="width: 200px; height: auto;"/>
+                        <img src="https://localhost:7240/@item.Thumbnail" alt="Thumbnail bài viết" style="width: 100%; height: auto;"/>
                     </div>
                 </div>
 

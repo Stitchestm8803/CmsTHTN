@@ -33,7 +33,7 @@ namespace CmsTHTN.WebApp.Controllers
         [Route("posts/{categorySlug}")]
         public async Task<IActionResult> ListByCategory([FromRoute] string categorySlug, [FromQuery] int page = 1)
         {
-            var posts = await _unitOfWork.Posts.GetPostByCategoryPaging(categorySlug, page, 2);
+            var posts = await _unitOfWork.Posts.GetPostByCategoryPaging(categorySlug, page, 5);
             var category = await _unitOfWork.PostCategories.GetBySlug(categorySlug);
             return View(new PostListByCategoryViewModel()
             {

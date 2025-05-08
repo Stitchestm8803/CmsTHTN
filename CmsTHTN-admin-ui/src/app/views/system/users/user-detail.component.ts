@@ -183,8 +183,10 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       }, 1000);
     }
   }
+  mode: string = 'create';
 
   setMode(mode: string) {
+    this.mode = mode;
     if (mode == 'update') {
       this.form.controls['userName'].clearValidators();
       this.form.controls['userName'].disable();
@@ -194,6 +196,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       this.form.controls['password'].disable();
     } else if (mode == 'create') {
       this.form.controls['userName'].addValidators(Validators.required);
+      this.form.controls['password'].addValidators(Validators.required);
       this.form.controls['userName'].enable();
       this.form.controls['email'].addValidators(Validators.required);
       this.form.controls['email'].enable();

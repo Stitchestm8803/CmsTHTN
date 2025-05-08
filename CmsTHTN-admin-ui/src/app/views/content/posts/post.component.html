@@ -65,7 +65,7 @@
               <p-badge *ngIf="row.status == 3" value="Đã đăng" severity="success"></p-badge>
             </td>
             <td>
-              <button *ngIf="row.status != 2 && row.status != 3 && hasPermission('Permissions.Posts.Approve')" pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
+              <button *ngIf="hasPermission('Permissions.Posts.Approve')" pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
                 (click)="addToSeries(row.id, row.sortOrder)" class="p-button-rounded p-button-text"></button>
               <button *ngIf="row.status == 1 && hasPermission('Permissions.Posts.Approve')" pButton pRipple type="button" icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top" 
                 (click)="approve(row.id)" class="p-button-rounded p-button-text p-button-success"></button>

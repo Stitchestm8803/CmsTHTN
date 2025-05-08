@@ -24,14 +24,10 @@ namespace CmsTHTN.WebApp.Controllers
         [Route("posts/search")]
         public async Task<IActionResult> Index([FromQuery] string keyword, [FromQuery] int page = 1, int pageSize = 5)
         {
-            var query = _context.Posts.Where(post => post.Status == PostStatus.Published);
-
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                query = query.Where(post => post.Name.Contains(keyword) || post.Tags.Contains(keyword) || post.CategoryName.Contains(keyword) || post.AuthorName == keyword);
-            }
-
-            query = query.OrderByDescending(post => post.ViewCount);
+            var query = _context.Posts
+                    .Where(post => post.Status == PostStatus.Published && EF.Functions.Like(post.Name, $"%{keyword}%"))
+                    .OrderByDescending(post => post.ViewCount)
+                    .Take(20);
 
             var totalItems = await query.CountAsync();
 

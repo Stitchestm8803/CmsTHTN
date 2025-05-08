@@ -47,7 +47,9 @@ namespace CmsTHTN.WebApp.Controllers
             {
                 Email = user.Email,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                Dob = user.Dob,
+                PhoneNumber = user.PhoneNumber
             });
         }
 
@@ -59,7 +61,9 @@ namespace CmsTHTN.WebApp.Controllers
             return View(new ChangeProfileViewModel()
             {
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                Dob = user.Dob,
+                PhoneNumber = user.PhoneNumber
             });
         }
 
@@ -71,6 +75,8 @@ namespace CmsTHTN.WebApp.Controllers
             var user = await GetCurrentUser();
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
+            user.Dob = model.Dob;
+            user.PhoneNumber = model.PhoneNumber;
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
@@ -98,6 +104,7 @@ namespace CmsTHTN.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError(string.Empty, "Mật khẩu mới không trùng với xác nhận mật khẩu");
                 return View(model);
             }
 
@@ -188,7 +195,7 @@ namespace CmsTHTN.WebApp.Controllers
                 ModelState.AddModelError(string.Empty, "Bài viết tạo thất tại");
 
             }
-            return View(model);
+            return Redirect($"{UrlConsts.EditPost}/{post.Id}");
         }
 
         [HttpGet]

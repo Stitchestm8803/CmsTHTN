@@ -39,20 +39,35 @@ export class RoyaltyMonthComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.toggleBlockUI(true);
-
+  
     this.RoyaltyApiClient.getRoyaltyReportByMonth(this.userName, this.fromMonth, this.fromYear, this.toMonth, this.toYear)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: RoyaltyReportByMonthDto[]) => {
-          this.items = response;
+          const groupedData = response.reduce((acc, item) => {
+            const key = `${item.month}/${item.year}`;
+            if (!acc[key]) {
+              acc[key] = { ...item };
+            } else {
+              acc[key].numberOfDraftPosts += item.numberOfDraftPosts;
+              acc[key].numberOfWaitingApprovalPosts += item.numberOfWaitingApprovalPosts;
+              acc[key].numberOfRejectedPosts += item.numberOfRejectedPosts;
+              acc[key].numberOfPublishPosts += item.numberOfPublishPosts;
+              acc[key].numberOfPaidPublishPosts += item.numberOfPaidPublishPosts;
+              acc[key].numberOfUnpaidPublishPosts += item.numberOfUnpaidPublishPosts;
+            }
+            return acc;
+          }, {});
+  
+          this.items = Object.values(groupedData);
           this.toggleBlockUI(false);
         },
         error: () => {
           this.toggleBlockUI(false);
-
         }
       });
   }
+  
   payForUser(userId: string) {
     this.confirmationService.confirm({
       message: "Bạn có chắc muốn thanh toán?",

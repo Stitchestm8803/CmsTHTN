@@ -10,7 +10,7 @@
     }
 </style>
 <!-- Page Header-->
-<header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
+<header class="masthead" style="background-image: url('/assets/img/home-background.jpg')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -54,10 +54,10 @@
                 <thead>
                     <tr>
                         <th>Tiêu đề</th>
-                        <th>Danh mục</th>
-                        <th>Thời gian tạo</th>
-                        <th>Lượt xem</th>
-                        <th>Trạng thái</th>
+                        <th style="min-width: 150px">Danh mục</th>
+                        <th style="min-width: 150px">Thời gian tạo</th>
+                        <th style="min-width: 110px">Lượt xem</th>
+                        <th style="min-width: 110px">Trạng thái</th>
                     </tr>
 
 
@@ -77,9 +77,9 @@
                                 }
                             </td>
                             <td>@item.CategoryName</td>
-                            <td>@item.DateCreated</td>
+                            <td>@item.DateCreated.ToString("dd/MM/yyyy") <br> @item.DateCreated.ToString("hh:mm:ss tt")</td>
                             <td>@item.ViewCount</td>
-                            <td class="d-flex justify-content-evenly">
+                            <td class="d-flex justify-content-evenly" style="min-width: 200px">
                                 @if (item.Status.ToString() == "Draft")
                                 {
                                     <a class="btn btn-primary btn-sm w-100 py-3" href="@UrlConsts.SendApprovalPost/@item.Id">Gửi để duyệt</a>

@@ -1,4 +1,5 @@
 ﻿using CmsTHTN.Core.ConfigOptions;
+using CmsTHTN.Core.Domain.Content;
 using CmsTHTN.Core.Domain.Identity;
 using CmsTHTN.Core.Events.LoginSuccessed;
 using CmsTHTN.Core.Events.RegisterSuccessed;
@@ -49,6 +50,10 @@ namespace CmsTHTN.WebApp.Controllers
             {
                 return View();
             }
+            if (model.Password != model.ConfirmPassword)
+            {
+                return View();
+            }    
             var result = await _userManager.CreateAsync(new AppUser()
             {
                 FirstName = model.FirstName,
@@ -59,17 +64,12 @@ namespace CmsTHTN.WebApp.Controllers
 
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
-                await _signInManager.SignInAsync(user, true);
                 await _mediator.Publish(new RegisterSuccessedEvent(model.Email));
-                return Redirect(UrlConsts.Profile);
+                return Redirect(UrlConsts.Login);
             }
             else
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                    ModelState.AddModelError(string.Empty, "Tài khoản đã tồn tại");
             }
             return View();
         }
@@ -94,6 +94,12 @@ namespace CmsTHTN.WebApp.Controllers
             if (user == null)
             {
                 ModelState.AddModelError(string.Empty, "Email nhập không đúng hoặc không tồn tại!");
+                return View();
+            }
+
+            if (!user.IsActive) 
+            {
+                ModelState.AddModelError(string.Empty, "Tài khoản bị khóa!");
                 return View();
             }
 
@@ -130,7 +136,7 @@ namespace CmsTHTN.WebApp.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Không thể tìm được người dùng có Email này");
+                ModelState.AddModelError(string.Empty, "Email không tồn tại");
             }
 
             // For more information on how to enable account confirmation and password reset please

@@ -42,7 +42,7 @@
           <ng-template pTemplate="header">
             <tr>
               <th style="width: 10px">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                
               </th>
               <th>Tháng</th>
               <th style="text-align: center;">Bài nháp</th>
@@ -56,7 +56,7 @@
           <ng-template pTemplate="body" let-row>
             <tr [pSelectableRow]="row">
               <td style="width: 10px"><span class="ui-column-title"></span>
-                <p-tableCheckbox [value]="row"></p-tableCheckbox>
+                
               </td>
               <td>{{row.month}}/{{row.year}}</td>
               <td style="text-align: center;">{{row.numberOfDraftPosts | number}}</td>

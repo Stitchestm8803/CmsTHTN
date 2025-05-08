@@ -23,7 +23,12 @@ builder.Services.AddControllersWithViews();
 //Custom setup
 builder.Services.Configure<SystemConfig>(configuration.GetSection("SystemConfig"));
 builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
-builder.Services.AddDbContext<CmsTHTNContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<CmsTHTNContext>(options =>
+    options.UseSqlServer(connectionString, sqlOptions =>
+        sqlOptions.CommandTimeout(120)
+    )
+);
+
 
 #region Configure Identity
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
