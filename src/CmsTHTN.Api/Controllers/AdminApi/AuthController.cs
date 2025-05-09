@@ -56,7 +56,7 @@ namespace CmsTHTN.Api.Controllers.AdminApi
                 new Claim(UserClaims.Id, user.Id.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.UserName),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(UserClaims.FirstName, user.FirstName),
+                new Claim(UserClaims.LastName, user.LastName),
                 new Claim(UserClaims.Roles, string.Join(";", roles)),
                 new Claim(UserClaims.Permissions, JsonSerializer.Serialize(permissions)),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

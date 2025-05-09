@@ -24,7 +24,7 @@ namespace CmsTHTN.WebApp.Helpers
             ((ClaimsIdentity)principal.Identity)?.AddClaims(new[] {
                 new Claim(UserClaims.Id, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(UserClaims.FirstName, user.FirstName),
+                new Claim(UserClaims.LastName, user.LastName),
             });
             return principal;
         }

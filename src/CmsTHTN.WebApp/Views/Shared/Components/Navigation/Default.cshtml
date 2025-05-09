@@ -13,7 +13,7 @@
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+            <ul style="padding-right: 10px;" class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Home">Trang chủ</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Series">Loạt bài</a></li>
                 <li class="nav-item dropdown">
@@ -41,8 +41,8 @@
             <span class="navbar-text">
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a style="color: lightgoldenrodyellow;" class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Profile">@User.GetFirstName()</a></li>
+                    <ul style="padding-left: 10px;" class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a style="color: lightgoldenrodyellow;" class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Profile">@User.GetUserName()</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle px-lg-3 py-3 py-lg-4" href="@UrlConsts.Posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Nghiệp vụ

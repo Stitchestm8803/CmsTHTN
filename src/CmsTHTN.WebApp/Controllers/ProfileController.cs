@@ -73,8 +73,6 @@ namespace CmsTHTN.WebApp.Controllers
         public async Task<IActionResult> ChangeProfile([FromForm] ChangeProfileViewModel model)
         {
             var user = await GetCurrentUser();
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
             user.Dob = model.Dob;
             user.PhoneNumber = model.PhoneNumber;
             var result = await _userManager.UpdateAsync(user);

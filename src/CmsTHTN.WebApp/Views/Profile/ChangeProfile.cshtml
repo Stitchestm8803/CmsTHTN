@@ -27,13 +27,13 @@
                     <div class="alert alert-success">@TempData[SystemConsts.FormSuccessMsg]</div>
                 }
                 <div class="col-md-8">
-                    <label for="firstName" class="form-label">First name</label>
-                    <input type="text" class="form-control" asp-for="FirstName" id="firstName" required>
+                    <label for="firstName" class="form-label">Họ</label>
+                    <input type="text" class="form-control" asp-for="FirstName" id="firstName" required readonly style="color: #6c757d;">
                     <span asp-validation-for="FirstName" class="invalid-feedback"></span>
                 </div>
                 <div class="col-md-8">
-                    <label for="lastName" class="form-label">Last name</label>
-                    <input type="text" class="form-control" asp-for="LastName" id="lastName" required>
+                    <label for="lastName" class="form-label">Tên</label>
+                    <input type="text" class="form-control" asp-for="LastName" id="lastName" required readonly style="color: #6c757d;">
                     <span asp-validation-for="LastName" class="invalid-feedback"></span>
 
                 </div>

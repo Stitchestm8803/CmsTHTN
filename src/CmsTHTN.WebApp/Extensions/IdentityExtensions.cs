@@ -10,9 +10,9 @@ namespace CmsTHTN.WebApp.Extensions
             var subjectId = claimsPrincipal.GetSpecificClaim(ClaimTypes.NameIdentifier);
             return Guid.Parse(subjectId);
         }
-        public static string GetFirstName(this ClaimsPrincipal claimsPrincipal)
+        public static string GetUserName(this ClaimsPrincipal claimsPrincipal)
         {
-            var subjectId = claimsPrincipal.GetSpecificClaim(UserClaims.FirstName);
+            var subjectId = claimsPrincipal.GetSpecificClaim(UserClaims.LastName);
             return subjectId;
         }
 
