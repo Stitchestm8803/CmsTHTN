@@ -36,12 +36,12 @@
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th>Tiêu đề</th>
-            <th>Danh mục</th>
-            <th style="text-align: center;">Lượt xem</th>
-            <th style="text-align: center;">Thời gian tạo</th>
-            <th style="text-align: center;">Nhuận bút</th>
+            <th style="min-width: 110px;">Danh mục</th>
+            <th style="text-align: center; min-width: 110px;">Lượt xem</th>
+            <th style="text-align: center; min-width: 115px;">Thời gian tạo</th>
+            <th style="text-align: center; min-width: 115px;">Nhuận bút</th>
             <th style="width: 150px; text-align: center;">Xuất bản</th>
-            <th></th>
+            <th style="min-width: 225px;"></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-row>
@@ -51,7 +51,7 @@
               <p-tableCheckbox [value]="row"></p-tableCheckbox>
             </td>
             <td>{{ row.name }}</td>
-            <td>{{ row.categoryName }}</td>
+            <td style="text-align: center;">{{ row.categoryName }}</td>
             <td style="text-align: center;">{{ row.viewCount | number }}</td>
             <td style="text-align: center;">{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
             <td style="text-align: center;">

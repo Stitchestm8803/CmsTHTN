@@ -53,7 +53,14 @@ namespace CmsTHTN.WebApp.Controllers
             if (model.Password != model.ConfirmPassword)
             {
                 return View();
-            }    
+            }
+            var existingUser = await _userManager.FindByEmailAsync(model.Email);
+            if (existingUser != null)
+            {
+                ModelState.AddModelError(string.Empty, "Tài khoản đã tồn tại");
+                return View();
+            }
+
             var result = await _userManager.CreateAsync(new AppUser()
             {
                 FirstName = model.FirstName,
@@ -69,7 +76,7 @@ namespace CmsTHTN.WebApp.Controllers
             }
             else
             {
-                    ModelState.AddModelError(string.Empty, "Tài khoản đã tồn tại");
+                    ModelState.AddModelError(string.Empty, "Có lỗi xảy ra");
             }
             return View();
         }

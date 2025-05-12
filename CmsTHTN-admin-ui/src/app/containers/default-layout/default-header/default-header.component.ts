@@ -27,9 +27,14 @@ export class DefaultHeaderComponent extends HeaderComponent {
   }
   ngOnInit(): void {
     const user = this.tokenService.getUser(); // Giả sử getUser() trả về { username: 'Nguyễn' }
-    if (user && user.firstName) {
-      this.username = user.firstName;
+    if (user && user.lastName) {
+      this.username = user.lastName;
     }
+    console.log(user); // Kiểm tra giá trị user
+  if (user && user.lastName) {
+    this.username = user.lastName;
+  }
+
   }
   logout(){
     this.tokenService.signOut();

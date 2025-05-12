@@ -21,7 +21,6 @@
         <div class="col-md-10 col-lg-8 col-xl-6">
             <form asp-action="Register" asp-controller="Auth" method="post" class="row g-12">
                 <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
-
                 <div class="col-md-6">
                     <label for="firstName" class="form-label">Họ</label>
                     <input type="text" class="form-control" asp-for="FirstName" id="firstName" required>
@@ -39,10 +38,8 @@
                         <span class="input-group-text" id="inputGroupPrepend3">@@</span>
                         <input type="text" class="form-control" id="email" asp-for="Email" required>
                         <span asp-validation-for="Email" class="invalid-feedback"></span>
-
                     </div>
                 </div>
-
                 <div class="col-md-12 mt-3">
                     <label for="password" class="form-label">Mật khẩu</label>
                     <input type="password" asp-for="Password" class="form-control" id="password" required>

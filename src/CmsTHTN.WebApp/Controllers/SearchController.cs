@@ -25,9 +25,7 @@ namespace CmsTHTN.WebApp.Controllers
         public async Task<IActionResult> Index([FromQuery] string keyword, [FromQuery] int page = 1, int pageSize = 5)
         {
             var query = _context.Posts
-                    .Where(post => post.Status == PostStatus.Published && EF.Functions.Like(post.Name, $"%{keyword}%"))
-                    .OrderByDescending(post => post.ViewCount)
-                    .Take(20);
+                    .Where(post => EF.Functions.Like(post.Name, $"%{keyword}%"));
 
             var totalItems = await query.CountAsync();
 
